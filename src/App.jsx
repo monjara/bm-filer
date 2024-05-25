@@ -6,14 +6,22 @@ import './App.css'
 function App() {
   const [count, setCount] = useState(0)
 
+  const getImage = (src) => {
+    return chrome.runtime.getURL(src)
+  }
+
   return (
     <>
       <div>
         <a href='https://vitejs.dev' target='_blank' rel='noreferrer'>
-          <img src={viteLogo} className='logo' alt='Vite logo' />
+          <img src={getImage(viteLogo)} className='logo' alt='Vite logo' />
         </a>
         <a href='https://react.dev' target='_blank' rel='noreferrer'>
-          <img src={reactLogo} className='logo react' alt='React logo' />
+          <img
+            src={getImage(reactLogo)}
+            className='logo react'
+            alt='React logo'
+          />
         </a>
       </div>
       <h1>Vite + React</h1>
