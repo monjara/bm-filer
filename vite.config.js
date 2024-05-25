@@ -7,8 +7,11 @@ import manifest from './manifest.json'
 export default defineConfig({
   plugins: [react(), crx({ manifest })],
   resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-    },
+    alias: [
+      {
+        find: '@',
+        replacement: `${__dirname}/src`,
+      },
+    ],
   },
 })

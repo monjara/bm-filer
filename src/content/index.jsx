@@ -1,4 +1,4 @@
-import App from '@/App.jsx'
+import Content from '@/content/content.jsx'
 import '@/content/index.css'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
@@ -9,6 +9,6 @@ document.body.appendChild(root)
 
 ReactDOM.createRoot(root).render(
   <React.StrictMode>
-    <App />
+    <Content />
   </React.StrictMode>
 )
