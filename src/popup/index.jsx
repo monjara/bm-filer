@@ -1,5 +1,5 @@
-import App from '@/App.jsx'
-import '@/index.css'
+import App from '@/popup/App.jsx'
+import '@/popup/index.css'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 
