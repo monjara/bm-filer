@@ -1,10 +1,12 @@
 import { useRepeatKeys } from '@/hooks/useRepeatKeys'
 import { useLayoutEffect, useState } from 'react'
 import Tree from './tree'
+import TreeContent from './tree-content'
 
-function Content() {
+export default function Content() {
   const [tree, setTree] = useState([])
   const { isPressed } = useRepeatKeys('s', 1000)
+  console.log('tree: ', tree)
 
   useLayoutEffect(() => {
     const getBookmarks = async () => {
@@ -23,12 +25,10 @@ function Content() {
       <div className='bm-filer-list-wrapper'>
         <div className='bm-filer-list-container'>
           {tree.map((node) => (
-            <Tree key={node.id} node={node} />
+            <Tree key={node.id} items={node} markup={TreeContent} />
           ))}
         </div>
       </div>
     </div>
   )
 }
-
-export default Content
