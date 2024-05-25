@@ -1,7 +1,7 @@
-import Content from '@/content/content.jsx'
 import '@/content/index.css'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import Content from './components/content'
 
 const root = document.createElement('div')
 root.id = 'crx-root'
