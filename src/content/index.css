@@ -1,7 +1,42 @@
 #crx-root {
   position: absolute;
   top: 0;
-  left: 0;
   z-index: 999999999;
-  background: blue;
+
+  .bm-filer-content {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 5px;
+    background: #dfe2ec;
+    width: 35%;
+    height: 95vh;
+    border-radius: 10px;
+    color: #000;
+  }
+
+  .bm-filer-list-wrapper {
+    height: 95%;
+    background: #fff;
+    overflow: auto;
+    border-radius: 10px;
+    margin: 20px;
+  }
+
+  .bm-filer-list-container {
+    margin: 10px;
+  }
+
+  .tree-row {
+    margin-bottom: 10px;
+  }
+
+  .tree-row-link {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
 }
