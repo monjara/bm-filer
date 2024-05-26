@@ -6,7 +6,8 @@
     "default_popup": "index.html"
   },
   "permissions": [
-    "bookmarks"
+    "bookmarks",
+    "favicon"
   ],
   "content_scripts": [
     {

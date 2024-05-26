@@ -12,12 +12,20 @@ export function useRepeatKeys(hotKey, duration = 1000) {
   const ref = useRef(0)
 
   useEffect(() => {
-    let timerId
     const handler = (e) => {
       if (e.key === ESC_KEY) {
         setIsPressed(false)
       }
+    }
+    document.addEventListener('keydown', handler)
+    return () => {
+      document.removeEventListener('keydown', handler)
+    }
+  }, [])
 
+  useEffect(() => {
+    let timerId
+    const handler = (e) => {
       const isInputTarget = isTargetElement(e, INPUT_ELEMENTS)
       if (isInputTarget) {
         return
