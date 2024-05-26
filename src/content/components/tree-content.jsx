@@ -1,15 +1,28 @@
-export default function TreeContent({ item, isOpen, setIsOpen }) {
+import { getFavicon } from '@/utils/getFavicon'
+import FolderIcon from './folder-icon'
+import FolderOpenIcon from './folder-open-icon'
+
+export default function TreeContent({ item, isOpen, setIsOpen, depth }) {
   return (
-    <div>
-      {item.children && (
-        <button type='button' onClick={() => setIsOpen(!isOpen)}>
-          <span>{isOpen ? 'v' : '>'}</span>
-        </button>
-      )}
-      {item.url ? (
-        <a href={item.url}>{item.title}</a>
+    <div
+      style={{
+        paddingLeft: `${depth * 2}px`,
+      }}
+    >
+      {item.children ? (
+        <div
+          className='folder-row'
+          onClick={() => setIsOpen(!isOpen)}
+          onKeyUp={() => setIsOpen(!isOpen)}
+        >
+          {isOpen ? <FolderOpenIcon /> : <FolderIcon />}
+          <span>{item.title}</span>
+        </div>
       ) : (
-        <span>{item.title}</span>
+        <a className='link-row' href={item.url}>
+          <img src={getFavicon(item.url)} alt='' style={{ width: 16 }} />
+          <span>{item.title}</span>
+        </a>
       )}
     </div>
   )
