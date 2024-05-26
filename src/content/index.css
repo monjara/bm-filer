@@ -4,7 +4,7 @@
   z-index: 999999999;
 
   .bm-filer-window {
-    display: block;
+    display: flex;
     position: fixed;
     top: 0;
     left: 0;
@@ -20,7 +20,7 @@
   }
 
   .bm-filer-list-container {
-    height: calc(100% - 20px);
+    width: 100%;
     background: #fff;
     overflow: auto;
     padding: 10px;
@@ -36,6 +36,7 @@
     height: 32px;
     padding-left: 0.5rem;
     margin-right: 0.5rem;
+    font-size: 14px;
   }
 
   .link-row {
