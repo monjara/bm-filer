@@ -7,21 +7,10 @@ const isTargetElement = (event, elements) => {
   return elements.some((elm) => !!event.target.closest(elm))
 }
 
-export function useRepeatKeys(hotKey, duration = 1000) {
+export function useToggleListener(hotKey, duration = 1000) {
+  const [items, setItems] = useState([])
   const [isPressed, setIsPressed] = useState(false)
   const ref = useRef(0)
-
-  useEffect(() => {
-    const handler = (e) => {
-      if (e.key === ESC_KEY) {
-        setIsPressed(false)
-      }
-    }
-    document.addEventListener('keydown', handler)
-    return () => {
-      document.removeEventListener('keydown', handler)
-    }
-  }, [])
 
   useEffect(() => {
     let timerId
@@ -41,6 +30,10 @@ export function useRepeatKeys(hotKey, duration = 1000) {
         setIsPressed(true)
         ref.current = 0
       }
+
+      if (e.key === ESC_KEY) {
+        setIsPressed(false)
+      }
     }
 
     document.addEventListener('keydown', handler)
@@ -52,7 +45,18 @@ export function useRepeatKeys(hotKey, duration = 1000) {
     }
   }, [hotKey, duration])
 
+  useEffect(() => {
+    if (isPressed) {
+      const getBookmarks = async () => {
+        const res = await chrome.runtime.sendMessage({ type: 'bookmarks' })
+        setItems(res.tree)
+      }
+      getBookmarks()
+    }
+  }, [isPressed])
+
   return {
+    items,
     isPressed,
   }
 }
