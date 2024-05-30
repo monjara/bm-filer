@@ -1,33 +1,14 @@
-import { useRepeatKeys } from '@/hooks/useRepeatKeys'
-import { useEffect, useState } from 'react'
-import Tree from './tree'
-import TreeContent from './tree-content'
+import { useToggleListener } from '@/hooks/useToggleListener'
+import { createPortal } from 'react-dom'
+import BookmarkWidnow from './bm-window'
 
 export default function Content() {
-  const [tree, setTree] = useState([])
-  const { isPressed } = useRepeatKeys('s', 1000)
-
-  useEffect(() => {
-    if (isPressed) {
-      const getBookmarks = async () => {
-        const res = await chrome.runtime.sendMessage({ type: 'bookmarks' })
-        setTree(res.tree)
-      }
-      getBookmarks()
-    }
-  }, [isPressed])
+  const { isPressed, items } = useToggleListener('a', 1000)
+  console.log('items: ', items)
 
   if (!isPressed) {
     return null
   }
 
-  return (
-    <div className='bm-filer-window'>
-      <div className='bm-filer-list-container'>
-        {tree.map((node) => (
-          <Tree key={node.id} items={node} markup={TreeContent} />
-        ))}
-      </div>
-    </div>
-  )
+  return createPortal(<BookmarkWidnow items={items} />, document.body)
 }
