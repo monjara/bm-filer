@@ -28,37 +28,49 @@ export default function KeymapProvider({ children }) {
     setSelectedId(id)
   }
 
+  const findLeftDir = (id) => {
+    const parentId = idAccessor[id].parentDir
+    if (parentId === '0') {
+      return id
+    }
+
+    const isParentOpen = openManager?.[parentId] ?? false
+    if (isParentOpen) {
+      return id
+    }
+
+    return findLeftDir(parentId)
+  }
+
+  const findRightDir = (id, origin) => {
+    const parentId = idAccessor[id].parentDir
+    if (parentId === '0') {
+      return id
+    }
+
+    const isParentOpen = openManager?.[parentId] ?? false
+    if (isParentOpen) {
+      if (id !== origin) {
+        return id
+      }
+    }
+
+    const right = idAccessor[id].right
+    return findRightDir(right, origin)
+  }
+
   const up = () => {
     const currentId = selectedId === '' ? flatItemIds[0] : selectedId
-
-    if (!idAccessor?.[currentId]?.prevDir || openManager?.[currentId]) {
-      const currentIndex = flatItemIds.indexOf(currentId)
-      if (currentIndex > 0) {
-        setSelectedId(flatItemIds[currentIndex - 1])
-      } else {
-        setSelectedId(idAccessor[currentId]?.parentDir || '')
-      }
-    } else {
-      setSelectedId(idAccessor[currentId]?.prevDir || '')
-    }
+    const left = idAccessor[currentId].left
+    const id = findLeftDir(left)
+    setSelectedId(id)
   }
 
   const down = () => {
-    const length = flatItemIds.length
-    const currentId = selectedId === '' ? flatItemIds[length - 1] : selectedId
-
-    if (!idAccessor?.[currentId]?.nextDir || openManager?.[currentId]) {
-      const currentIndex = flatItemIds.indexOf(currentId)
-      if (currentIndex < length - 1) {
-        setSelectedId(flatItemIds[currentIndex + 1])
-      } else {
-        setSelectedId(
-          idAccessor[idAccessor[currentId]?.parentDir]?.nextDir || ''
-        )
-      }
-    } else {
-      setSelectedId(idAccessor[currentId]?.nextDir || '')
-    }
+    const currentId = selectedId === '' ? flatItemIds[0] : selectedId
+    const right = idAccessor[currentId].right
+    const id = findRightDir(right, currentId)
+    setSelectedId(id)
   }
 
   useEffect(() => {

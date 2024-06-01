@@ -21,19 +21,23 @@ export default function ContentProvider({ children }) {
     [flatItems]
   )
 
-  const idAccessor = useMemo(
-    () =>
-      flatItems.reduce((acc, item) => {
-        if (!acc[item.id]) {
-          acc[item.id] = {}
-        }
-        acc[item.id].prevDir = item.prevDir
-        acc[item.id].nextDir = item.nextDir
-        acc[item.id].parentDir = item.parentDir
-        return acc
-      }, {}),
-    [flatItems]
-  )
+  const idAccessor = useMemo(() => {
+    const length = flatItems.length
+    return flatItems.reduce((acc, item, index) => {
+      const prevIndex = index > 0 ? index - 1 : length - 1
+      const nextIndex = index < length - 1 ? index + 1 : 0
+
+      if (!acc[item.id]) {
+        acc[item.id] = {}
+      }
+      acc[item.id].prevDir = item.prevDir
+      acc[item.id].nextDir = item.nextDir
+      acc[item.id].parentDir = item.parentId
+      acc[item.id].left = flatItems[prevIndex].id
+      acc[item.id].right = flatItems[nextIndex].id
+      return acc
+    }, {})
+  }, [flatItems])
 
   return (
     <contentContext.Provider
