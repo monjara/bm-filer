@@ -73,13 +73,17 @@ export default function KeymapProvider({ children }) {
         default:
           break
       }
+
+      document.getElementById(`d-${selectedId}`)?.scrollIntoView({
+        block: 'center',
+      })
     }
 
     window.addEventListener('keydown', handler)
     return () => {
       window.removeEventListener('keydown', handler)
     }
-  }, [down, up])
+  }, [selectedId, down, up])
 
   return (
     <keymapProvider.Provider
