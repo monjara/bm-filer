@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useRef, useState } from 'react'
+import { createContext, useContext, useMemo, useState } from 'react'
 import flatTree from '../utils/flatTree'
 import { useContentContext } from './ContentProvider'
 
@@ -6,38 +6,70 @@ const keymapProvider = createContext({
   selectedId: '',
   up: () => {},
   down: () => {},
+  manageOpen: () => {},
 })
 
 export const useKeymapProvider = () => useContext(keymapProvider)
 
 export default function KeymapProvider({ children }) {
   const { items } = useContentContext()
-  const flatItemIds = useMemo(() => flatTree(items), [items])
+  const flatItems = useMemo(() => flatTree(items), [items])
+  const flatItemIds = useMemo(
+    () => flatItems.map((item) => item.id),
+    [flatItems]
+  )
+
+  const idMap = useMemo(
+    () =>
+      flatItems.reduce((acc, item) => {
+        if (!acc[item.id]) {
+          acc[item.id] = {}
+        }
+        acc[item.id].prevDir = item.prevDir
+        acc[item.id].nextDir = item.nextDir
+        acc[item.id].parentDir = item.parentDir
+        return acc
+      }, {}),
+    [flatItems]
+  )
+
   const [selectedId, setSelectedId] = useState(flatItemIds[0] || '')
+  const [openManager, setOpenManager] = useState({})
+  const manageOpen = (id, isOpen) => {
+    setOpenManager((old) => ({
+      ...old,
+      [id]: isOpen,
+    }))
+  }
 
   const up = () => {
-    const currentIndex = flatItemIds.indexOf(
-      selectedId === '' ? flatItemIds[0] : selectedId
-    )
-    if (currentIndex > 0) {
-      setSelectedId(flatItemIds[currentIndex - 1])
+    const currentId = selectedId === '' ? flatItemIds[0] : selectedId
+
+    if (!idMap?.[currentId]?.prevDir || openManager?.[currentId]) {
+      const currentIndex = flatItemIds.indexOf(currentId)
+      if (currentIndex > 0) {
+        setSelectedId(flatItemIds[currentIndex - 1])
+      } else {
+        setSelectedId(idMap[currentId]?.parentDir || '')
+      }
     } else {
-      setSelectedId(flatItemIds[flatItemIds.length - 1])
+      setSelectedId(idMap[currentId]?.prevDir || '')
     }
   }
 
-  const down = (isOpen) => {
-    if (isOpen) {
-      const length = flatItemIds.length
-      const currentIndex = flatItemIds.indexOf(
-        selectedId === '' ? flatItemIds[length - 1] : selectedId
-      )
+  const down = () => {
+    const length = flatItemIds.length
+    const currentId = selectedId === '' ? flatItemIds[length - 1] : selectedId
+
+    if (!idMap?.[currentId]?.nextDir || openManager?.[currentId]) {
+      const currentIndex = flatItemIds.indexOf(currentId)
       if (currentIndex < length - 1) {
         setSelectedId(flatItemIds[currentIndex + 1])
       } else {
-        setSelectedId(flatItemIds[0])
+        setSelectedId(idMap[idMap[currentId]?.parentDir]?.nextDir || '')
       }
     } else {
+      setSelectedId(idMap[currentId]?.nextDir || '')
     }
   }
 
@@ -47,6 +79,7 @@ export default function KeymapProvider({ children }) {
         selectedId,
         up,
         down,
+        manageOpen,
       }}
     >
       {children}

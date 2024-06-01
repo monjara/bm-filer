@@ -1,8 +1,12 @@
 import { useState } from 'react'
+import { useKeymapProvider } from '../provider/KeymapProvider'
 
 export default function Tree({ markup, item, depth = 1 }) {
+  const { manageOpen } = useKeymapProvider()
   const [isOpen, setIsOpen] = useState(false)
-  const toggle = () => {
+
+  const toggle = (id) => {
+    manageOpen(id, !isOpen)
     setIsOpen((old) => !old)
   }
 
