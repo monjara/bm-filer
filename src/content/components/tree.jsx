@@ -1,29 +1,20 @@
 import { useState } from 'react'
 
-export default function Tree({
-  markup,
-  items: node,
-  selected,
-  setParentId,
-  depth = 1,
-}) {
+export default function Tree({ markup, item, depth = 1 }) {
   const [isOpen, setIsOpen] = useState(false)
-  const toggle = (parentId) => {
-    setParentId(parentId)
+  const toggle = () => {
     setIsOpen((old) => !old)
   }
 
   return (
     <div>
-      {markup({ item: node, isOpen, toggle, selected, depth })}
+      {markup({ item, isOpen, toggle, depth })}
       {isOpen &&
-        node.children?.map((child) => (
+        item.children?.map((child) => (
           <Tree
             key={child.id}
             markup={markup}
-            items={child}
-            selected={selected}
-            setParentId={setParentId}
+            item={child}
             depth={depth + 10}
           />
         ))}

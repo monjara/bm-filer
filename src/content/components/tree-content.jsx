@@ -1,12 +1,13 @@
 import FolderOpenIcon from '@/assets/folder-open.svg'
 import FolderIcon from '@/assets/folder.svg'
-import { getFavicon } from '@/utils/getFavicon'
-import { getImage } from '@/utils/getImage'
+import getFavicon from '@/utils/getFavicon'
+import getImage from '@/utils/getImage'
 import { useEffect } from 'react'
+import { useKeymapProvider } from '../provider/KeymapProvider'
 
-export default function TreeContent({ item, isOpen, toggle, selected, depth }) {
-  const isSelected =
-    selected.parentId === item.parentId && selected.index === item.index
+export default function TreeContent({ item, isOpen, toggle, depth }) {
+  const { selectedId } = useKeymapProvider()
+  const isSelected = item.id === selectedId
 
   useEffect(() => {
     const handler = (e) => {
@@ -20,10 +21,10 @@ export default function TreeContent({ item, isOpen, toggle, selected, depth }) {
         }
       }
     }
-    const elm = document.body
-    elm.addEventListener('keydown', handler)
+
+    document.addEventListener('keydown', handler)
     return () => {
-      elm.removeEventListener('keydown', handler)
+      document.removeEventListener('keydown', handler)
     }
   }, [toggle, item, isSelected])
 

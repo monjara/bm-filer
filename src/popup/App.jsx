@@ -1,6 +1,6 @@
-import '@/popup/App.css'
 import reactLogo from '@/assets/react.svg'
-import { getImage } from '@/utils/getImage'
+import '@/popup/App.css'
+import getImage from '@/utils/getImage'
 import { useState } from 'react'
 import viteLogo from '/vite.svg'
 
