@@ -7,8 +7,32 @@ const isTargetElement = (event, elements) => {
   return elements.some((elm) => !!event.target.closest(elm))
 }
 
+const flat = (items) => {
+  let result = []
+
+  if (Array.isArray(items)) {
+    for (const item of items) {
+      result = result.concat(flat(item))
+    }
+    return result
+  }
+
+  if (!items?.children) {
+    result.push(items)
+  } else {
+    result.push(items)
+
+    for (const child of items.children) {
+      result = result.concat(flat(child))
+    }
+  }
+
+  return result
+}
+
 export function useToggleListener(hotKey, duration = 1000) {
   const [items, setItems] = useState([])
+  const [flatItems, setFlatItems] = useState([])
   const [isPressed, setIsPressed] = useState(false)
   const ref = useRef(0)
 
@@ -36,12 +60,12 @@ export function useToggleListener(hotKey, duration = 1000) {
       }
     }
 
-    document.addEventListener('keydown', handler)
+    window.addEventListener('keydown', handler)
 
     return () => {
       ref.current = 0
       clearTimeout(timerId)
-      document.removeEventListener('keydown', handler)
+      window.removeEventListener('keydown', handler)
     }
   }, [hotKey, duration])
 
@@ -50,6 +74,7 @@ export function useToggleListener(hotKey, duration = 1000) {
       const getBookmarks = async () => {
         const res = await chrome.runtime.sendMessage({ type: 'bookmarks' })
         setItems(res.tree)
+        setFlatItems(flat(res.tree))
       }
       getBookmarks()
     }
@@ -58,5 +83,6 @@ export function useToggleListener(hotKey, duration = 1000) {
   return {
     items,
     isPressed,
+    flatItems,
   }
 }

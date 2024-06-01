@@ -1,7 +1,8 @@
+import FolderOpenIcon from '@/assets/folder-open.svg'
+import FolderIcon from '@/assets/folder.svg'
 import { getFavicon } from '@/utils/getFavicon'
+import { getImage } from '@/utils/getImage'
 import { useEffect } from 'react'
-import FolderIcon from './folder-icon'
-import FolderOpenIcon from './folder-open-icon'
 
 export default function TreeContent({ item, isOpen, toggle, selected, depth }) {
   const isSelected =
@@ -39,7 +40,11 @@ export default function TreeContent({ item, isOpen, toggle, selected, depth }) {
           onClick={() => toggle(item.parentId)}
           onKeyUp={() => toggle(item.parentId)}
         >
-          {isOpen ? <FolderOpenIcon /> : <FolderIcon />}
+          {isOpen ? (
+            <img src={getImage(FolderOpenIcon)} alt='folder-open' />
+          ) : (
+            <img src={getImage(FolderIcon)} alt='folder' />
+          )}
           <span>{item.title}</span>
         </div>
       ) : (

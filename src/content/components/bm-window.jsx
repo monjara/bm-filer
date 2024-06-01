@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
+import { useContentContext } from '../provider/ContentProvider'
 import Tree from './tree'
 import TreeContent from './tree-content'
 
 const UP_KEY = 'k'
 const DOWN_KEY = 'j'
 
-export default function BookmarkWidnow({ items }) {
+export default function BookmarkWidnow() {
+  const { items } = useContentContext()
   const [selected, setSelected] = useState({
     parentId: '0',
     index: 0,
@@ -30,9 +32,10 @@ export default function BookmarkWidnow({ items }) {
         }))
       }
     }
-    document.body.addEventListener('keydown', handler, { passive: true })
+
+    window.addEventListener('keydown', handler)
     return () => {
-      document.body.removeEventListener('keydown', handler, { passive: true })
+      window.removeEventListener('keydown', handler)
     }
   }, [])
 
