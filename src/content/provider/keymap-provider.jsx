@@ -1,11 +1,11 @@
-import { createContext, useContext, useMemo, useState } from 'react'
-import flatTree from '../utils/flatTree'
+import { createContext, useContext, useEffect, useState } from 'react'
 import { useContentContext } from './content-provider'
+
+const UP_KEY = 'k'
+const DOWN_KEY = 'j'
 
 const keymapProvider = createContext({
   selectedId: '',
-  up: () => {},
-  down: () => {},
   manageOpen: () => {},
   updateSelectedId: () => {},
 })
@@ -13,27 +13,7 @@ const keymapProvider = createContext({
 export const useKeymapProvider = () => useContext(keymapProvider)
 
 export default function KeymapProvider({ children }) {
-  const { items } = useContentContext()
-  const flatItems = useMemo(() => flatTree(items), [items])
-  const flatItemIds = useMemo(
-    () => flatItems.map((item) => item.id),
-    [flatItems]
-  )
-
-  const idMap = useMemo(
-    () =>
-      flatItems.reduce((acc, item) => {
-        if (!acc[item.id]) {
-          acc[item.id] = {}
-        }
-        acc[item.id].prevDir = item.prevDir
-        acc[item.id].nextDir = item.nextDir
-        acc[item.id].parentDir = item.parentDir
-        return acc
-      }, {}),
-    [flatItems]
-  )
-
+  const { idAccessor, flatItemIds } = useContentContext()
   const [selectedId, setSelectedId] = useState(flatItemIds[0] || '')
   const [openManager, setOpenManager] = useState({})
 
@@ -51,15 +31,15 @@ export default function KeymapProvider({ children }) {
   const up = () => {
     const currentId = selectedId === '' ? flatItemIds[0] : selectedId
 
-    if (!idMap?.[currentId]?.prevDir || openManager?.[currentId]) {
+    if (!idAccessor?.[currentId]?.prevDir || openManager?.[currentId]) {
       const currentIndex = flatItemIds.indexOf(currentId)
       if (currentIndex > 0) {
         setSelectedId(flatItemIds[currentIndex - 1])
       } else {
-        setSelectedId(idMap[currentId]?.parentDir || '')
+        setSelectedId(idAccessor[currentId]?.parentDir || '')
       }
     } else {
-      setSelectedId(idMap[currentId]?.prevDir || '')
+      setSelectedId(idAccessor[currentId]?.prevDir || '')
     }
   }
 
@@ -67,24 +47,44 @@ export default function KeymapProvider({ children }) {
     const length = flatItemIds.length
     const currentId = selectedId === '' ? flatItemIds[length - 1] : selectedId
 
-    if (!idMap?.[currentId]?.nextDir || openManager?.[currentId]) {
+    if (!idAccessor?.[currentId]?.nextDir || openManager?.[currentId]) {
       const currentIndex = flatItemIds.indexOf(currentId)
       if (currentIndex < length - 1) {
         setSelectedId(flatItemIds[currentIndex + 1])
       } else {
-        setSelectedId(idMap[idMap[currentId]?.parentDir]?.nextDir || '')
+        setSelectedId(
+          idAccessor[idAccessor[currentId]?.parentDir]?.nextDir || ''
+        )
       }
     } else {
-      setSelectedId(idMap[currentId]?.nextDir || '')
+      setSelectedId(idAccessor[currentId]?.nextDir || '')
     }
   }
+
+  useEffect(() => {
+    const handler = (e) => {
+      switch (e.key) {
+        case DOWN_KEY:
+          down()
+          break
+        case UP_KEY:
+          up()
+          break
+        default:
+          break
+      }
+    }
+
+    window.addEventListener('keydown', handler)
+    return () => {
+      window.removeEventListener('keydown', handler)
+    }
+  }, [down, up])
 
   return (
     <keymapProvider.Provider
       value={{
         selectedId,
-        up,
-        down,
         manageOpen,
         updateSelectedId,
       }}

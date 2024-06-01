@@ -1,5 +1,6 @@
 import { createPortal } from 'react-dom'
 import { useContentContext } from '../provider/content-provider'
+import KeymapProvider from '../provider/keymap-provider'
 import BookmarkWindow from './bookmark-window'
 
 export default function Content() {
@@ -9,5 +10,10 @@ export default function Content() {
     return null
   }
 
-  return createPortal(<BookmarkWindow />, document.body)
+  return createPortal(
+    <KeymapProvider>
+      <BookmarkWindow />
+    </KeymapProvider>,
+    document.body
+  )
 }
