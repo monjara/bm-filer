@@ -1,3 +1,5 @@
+import isDir from './isDir'
+
 /**
  * Flattens a tree structure
  * @param {Array} items: The tree structure to flatten
@@ -13,8 +15,8 @@ export default function flatTree(items) {
     return result
   }
 
-  result.push(items.id)
-  if (items?.children) {
+  result.push(items)
+  if (isDir(items)) {
     for (const child of items.children) {
       result = result.concat(flatTree(child))
     }

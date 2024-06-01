@@ -4,6 +4,7 @@ import getFavicon from '@/utils/getFavicon'
 import getImage from '@/utils/getImage'
 import { useEffect } from 'react'
 import { useKeymapProvider } from '../provider/KeymapProvider'
+import isDir from '../utils/isDir'
 
 export default function TreeContent({ item, isOpen, toggle, depth }) {
   const { selectedId } = useKeymapProvider()
@@ -35,11 +36,11 @@ export default function TreeContent({ item, isOpen, toggle, depth }) {
         paddingLeft: `${depth * 2}px`,
       }}
     >
-      {item.children ? (
+      {isDir(item) ? (
         <div
           className={`folder-row ${isSelected ? 'selected' : ''}`}
-          onClick={() => toggle(item.parentId)}
-          onKeyUp={() => toggle(item.parentId)}
+          onClick={() => toggle(item.id)}
+          onKeyUp={() => toggle(item.id)}
         >
           {isOpen ? (
             <img src={getImage(FolderOpenIcon)} alt='folder-open' />
