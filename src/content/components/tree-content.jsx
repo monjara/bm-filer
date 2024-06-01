@@ -3,7 +3,7 @@ import FolderIcon from '@/assets/folder.svg'
 import getFavicon from '@/utils/getFavicon'
 import getImage from '@/utils/getImage'
 import { useEffect } from 'react'
-import { useKeymapProvider } from '../provider/KeymapProvider'
+import { useKeymapProvider } from '../provider/keymap-provider'
 import isDir from '../utils/isDir'
 
 export default function TreeContent({ item, isOpen, toggle, depth }) {

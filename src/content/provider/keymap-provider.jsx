@@ -1,6 +1,6 @@
 import { createContext, useContext, useMemo, useState } from 'react'
 import flatTree from '../utils/flatTree'
-import { useContentContext } from './ContentProvider'
+import { useContentContext } from './content-provider'
 
 const keymapProvider = createContext({
   selectedId: '',

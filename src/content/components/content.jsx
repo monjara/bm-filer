@@ -1,5 +1,5 @@
 import { createPortal } from 'react-dom'
-import { useContentContext } from '../provider/ContentProvider'
+import { useContentContext } from '../provider/content-provider'
 import BookmarkWindow from './bookmark-window'
 
 export default function Content() {

@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import { useContentContext } from '../provider/ContentProvider'
-import { useKeymapProvider } from '../provider/KeymapProvider'
+import { useContentContext } from '../provider/content-provider'
+import { useKeymapProvider } from '../provider/keymap-provider'
 import Tree from './tree'
 import TreeContent from './tree-content'
 
