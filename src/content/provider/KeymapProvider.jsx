@@ -7,6 +7,7 @@ const keymapProvider = createContext({
   up: () => {},
   down: () => {},
   manageOpen: () => {},
+  updateSelectedId: () => {},
 })
 
 export const useKeymapProvider = () => useContext(keymapProvider)
@@ -35,11 +36,16 @@ export default function KeymapProvider({ children }) {
 
   const [selectedId, setSelectedId] = useState(flatItemIds[0] || '')
   const [openManager, setOpenManager] = useState({})
+
   const manageOpen = (id, isOpen) => {
     setOpenManager((old) => ({
       ...old,
       [id]: isOpen,
     }))
+  }
+
+  const updateSelectedId = (id) => {
+    setSelectedId(id)
   }
 
   const up = () => {
@@ -80,6 +86,7 @@ export default function KeymapProvider({ children }) {
         up,
         down,
         manageOpen,
+        updateSelectedId,
       }}
     >
       {children}
