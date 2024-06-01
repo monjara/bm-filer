@@ -7,9 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "biome:format": "biome format --write src",
-    "biome:lint": "biome lint --apply src",
-    "biome:check": "biome check --apply src"
+    "format": "biome format --write src",
+    "lint": "biome lint --apply src",
+    "check": "biome check --apply src"
   },
   "dependencies": {
     "react": "^18.2.0",
