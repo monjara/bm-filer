@@ -6,7 +6,7 @@ import TreeContent from './tree-content'
 const UP_KEY = 'k'
 const DOWN_KEY = 'j'
 
-export default function BookmarkWidnow() {
+export default function BookmarkWindow() {
   const { items } = useContentContext()
   const [selected, setSelected] = useState({
     parentId: '0',

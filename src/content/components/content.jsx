@@ -1,6 +1,6 @@
 import { createPortal } from 'react-dom'
 import { useContentContext } from '../provider/ContentProvider'
-import BookmarkWidnow from './bm-window'
+import BookmarkWindow from './bookmark-window'
 
 export default function Content() {
   const { isPressed } = useContentContext()
@@ -9,5 +9,5 @@ export default function Content() {
     return null
   }
 
-  return createPortal(<BookmarkWidnow />, document.body)
+  return createPortal(<BookmarkWindow />, document.body)
 }
