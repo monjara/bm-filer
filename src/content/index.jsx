@@ -2,8 +2,8 @@ import '@/content/index.css'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import Content from './components/content'
-import ContentProvider from './provider/ContentProvider'
-import KeymapProvider from './provider/KeymapProvider'
+import ContentProvider from './provider/content-provider'
+import KeymapProvider from './provider/keymap-provider'
 
 const root = document.createElement('div')
 root.id = 'bm-filer-root'
