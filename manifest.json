@@ -1,7 +1,8 @@
 {
   "manifest_version": 3,
   "name": "bookmark filer",
-  "version": "1.0.0",
+  "version": "0.1.0",
+  "description": "bookmark filer like vim keybindings",
   "permissions": [
     "bookmarks",
     "favicon",
