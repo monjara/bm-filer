@@ -1,10 +1,10 @@
-import FolderOpenIcon from '@/assets/folder-open.svg'
-import FolderIcon from '@/assets/folder.svg'
 import getFavicon from '@/utils/getFavicon'
 import getImage from '@/utils/getImage'
 import { useEffect } from 'react'
 import { useKeymapProvider } from '../provider/keymap-provider'
 import isDir from '../utils/isDir'
+import Folder from './folder'
+import FolderOpen from './folder-open'
 
 export default function TreeContent({ item, isOpen, toggle, depth }) {
   const { selectedId } = useKeymapProvider()
@@ -42,11 +42,7 @@ export default function TreeContent({ item, isOpen, toggle, depth }) {
           onClick={() => toggle(item.id)}
           onKeyUp={() => toggle(item.id)}
         >
-          {isOpen ? (
-            <img src={getImage(FolderOpenIcon)} alt='folder-open' />
-          ) : (
-            <img src={getImage(FolderIcon)} alt='folder' />
-          )}
+          {isOpen ? <FolderOpen /> : <Folder />}
           <span>{item.title}</span>
         </div>
       ) : (
