@@ -1,4 +1,4 @@
-import isDir from './isDir'
+import isDir from '@/utils/isDir'
 
 /**
  * Flattens a tree structure

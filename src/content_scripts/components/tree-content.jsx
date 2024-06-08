@@ -1,9 +1,9 @@
 import getFavicon from '@/utils/getFavicon'
+import isDir from '@/utils/isDir'
 import { useEffect } from 'react'
 import { useKeymapProvider } from '../provider/keymap-provider'
 import Folder from './folder'
 import FolderOpen from './folder-open'
-import isDir from '@/utils/isDir'
 
 export default function TreeContent({ item, isOpen, toggle, depth }) {
   const { selectedId } = useKeymapProvider()
