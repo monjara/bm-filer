@@ -3,6 +3,7 @@ import { useContentContext } from './content-provider'
 
 const UP_KEY = 'k'
 const DOWN_KEY = 'j'
+const RENAME_KEY = 'r'
 
 const keymapProvider = createContext({
   selectedId: '',
@@ -74,13 +75,21 @@ export default function KeymapProvider({ children }) {
   }
 
   useEffect(() => {
+    document.getElementById('hidden_input')?.focus()
+
     const handler = (e) => {
       switch (e.key) {
         case DOWN_KEY:
           down()
+          e.stopPropagation()
           break
         case UP_KEY:
           up()
+          e.stopPropagation()
+          break
+        case RENAME_KEY:
+          console.log('rename')
+          e.stopPropagation()
           break
         default:
           break

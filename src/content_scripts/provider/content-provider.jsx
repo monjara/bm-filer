@@ -8,12 +8,13 @@ const contentContext = createContext({
   flatItems: [],
   flatItemIds: [],
   idAccessor: {},
+  close: () => {},
 })
 
 export const useContentContext = () => useContext(contentContext)
 
 export default function ContentProvider({ children }) {
-  const { items, isPressed } = useToggleListener('a', 1000)
+  const { items, isPressed, close } = useToggleListener('a', 1000)
 
   const flatItems = useMemo(() => flatTree(items), [items])
   const flatItemIds = useMemo(
@@ -47,6 +48,7 @@ export default function ContentProvider({ children }) {
         flatItemIds,
         idAccessor,
         isPressed,
+        close,
       }}
     >
       {children}
