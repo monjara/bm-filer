@@ -14,7 +14,10 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["src/content/index.jsx", "src/content/components/content.jsx"]
+      "js": [
+        "src/content_scripts/index.jsx",
+        "src/content_scripts/components/content.jsx"
+      ]
     }
   ],
   "background": {

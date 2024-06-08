@@ -1,4 +1,4 @@
-import isDir from '@/content/utils/isDir'
+import isDir from "@/utils/isDir"
 
 export async function getBookmarks() {
   return await chrome.storage.local.get('tree')

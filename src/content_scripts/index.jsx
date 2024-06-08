@@ -1,4 +1,4 @@
-import '@/content/index.css'
+import '@/content_scripts/index.css'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import Content from './components/content'
