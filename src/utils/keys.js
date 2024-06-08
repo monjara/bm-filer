@@ -11,7 +11,7 @@ const keys = {
   ENTER: 'Enter',
   OPEN: 'l',
   QUIT: 'q',
-  ESC: 'Escape'
+  ESC: 'Escape',
 }
 
 export default keys

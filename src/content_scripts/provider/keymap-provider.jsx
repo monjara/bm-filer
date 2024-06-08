@@ -1,6 +1,6 @@
+import keys from '@/utils/keys'
 import { createContext, useContext, useEffect, useState } from 'react'
 import { useContentContext } from './content-provider'
-import keys from '@/utils/keys'
 
 const keymapProvider = createContext({
   selectedId: '',
