@@ -1,11 +1,14 @@
 import keys from '@/utils/keys'
 import { useEffect, useRef } from 'react'
 import { useContentContext } from '../provider/content-provider'
+import { useRenameContext } from '../provider/rename-provider'
+import RenameForm from './rename-form'
 import Tree from './tree'
 import TreeContent from './tree-content'
 
 export default function BookmarkWindow() {
   const { items, close } = useContentContext()
+  const { isRename } = useRenameContext()
   const ref = useRef(null)
 
   useEffect(() => {
@@ -14,7 +17,7 @@ export default function BookmarkWindow() {
         if (!e?.sourceCapabilities && e.target === ref.current) {
           close()
         } else {
-          ref.current.focus()
+          // ref.current.focus()
         }
       }
       const keyDownHandler = (e) => {
@@ -62,6 +65,7 @@ https://chromewebstore.google.com/detail/bookmark-filer/akjhpafliijgbfigfmcngflc
           ))}
         </div>
       </div>
+      {isRename && <RenameForm />}
     </div>
   )
 }

@@ -1,3 +1,4 @@
+import isTargetElement from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
 import { createContext, useContext, useEffect, useState } from 'react'
 import { useContentContext } from './content-provider'
@@ -75,23 +76,17 @@ export default function KeymapProvider({ children }) {
     document.getElementById('hidden_input')?.focus()
 
     const handler = (e) => {
-      switch (e.key) {
-        case keys.DOWN:
-        case keys.ArrowDOWN:
-          down()
-          e.stopPropagation()
-          break
-        case keys.UP:
-        case keys.ArrowUP:
-          up()
-          e.stopPropagation()
-          break
-        case keys.ENTER:
-        case keys.OPEN:
-          break
-        default:
-          console.log(`${e.key} key is not implemented in bookmark filer...`)
-          break
+      if (isTargetElement(e, ['#title'])) {
+        return
+      }
+
+      if (e.key === keys.DOWN || e.key === keys.ArrowDOWN) {
+        down()
+        e.stopPropagation()
+      }
+      if (e.key === keys.UP || e.key === keys.ArrowUP) {
+        up()
+        e.stopPropagation()
       }
 
       document.getElementById(`d-${selectedId}`)?.scrollIntoView({

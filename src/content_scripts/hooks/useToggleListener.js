@@ -1,27 +1,17 @@
+import { isInputTarget } from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
 import { useEffect, useRef, useState } from 'react'
-
-const INPUT_ELEMENTS = ['input', 'textarea', '[contenteditable]']
-
-const isTargetElement = (event, elements) => {
-  return elements.some((elm) => !!event.target.closest(elm))
-}
+import { getBookmarks } from '../utils/message'
 
 export function useToggleListener(hotKey, duration = 1000) {
   const [items, setItems] = useState([])
   const [isPressed, setIsPressed] = useState(false)
   const ref = useRef(0)
 
-  const close = () => {
-    setIsPressed(false)
-    ref.current = 0
-  }
-
   useEffect(() => {
     let timerId
     const handler = (e) => {
-      const isInputTarget = isTargetElement(e, INPUT_ELEMENTS)
-      if (isInputTarget) {
+      if (isInputTarget(e)) {
         return
       }
 
@@ -48,21 +38,27 @@ export function useToggleListener(hotKey, duration = 1000) {
       clearTimeout(timerId)
       window.removeEventListener('keydown', handler)
     }
-  }, [hotKey, duration, close])
+  }, [hotKey, duration])
 
   useEffect(() => {
     if (isPressed) {
-      const getBookmarks = async () => {
-        const res = await chrome.runtime.sendMessage({ type: 'bookmarks' })
-        setItems(res.tree)
-      }
-      getBookmarks()
+      getBookmarks().then((result) => {
+        setItems(result.tree)
+      })
     }
   }, [isPressed])
+
+  function close() {
+    setIsPressed(false)
+    ref.current = 0
+  }
 
   return {
     items,
     isPressed,
     close,
+    reloadItems: (value) => {
+      setItems(value)
+    },
   }
 }
