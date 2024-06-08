@@ -1,3 +1,4 @@
+import keys from '@/utils/keys'
 import { useEffect, useRef } from 'react'
 import { useContentContext } from '../provider/content-provider'
 import Tree from './tree'
@@ -10,12 +11,14 @@ export default function BookmarkWindow() {
   useEffect(() => {
     if (ref.current) {
       const focusoutHandler = (e) => {
-        if (e.target === ref.current) {
+        if (!e?.sourceCapabilities && e.target === ref.current) {
           close()
+        } else {
+          ref.current.focus()
         }
       }
       const keyDownHandler = (e) => {
-        if (e.key === 'q') {
+        if (e.key === keys.QUIT) {
           close()
         }
       }

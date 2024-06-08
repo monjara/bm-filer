@@ -1,9 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { useContentContext } from './content-provider'
-
-const UP_KEY = 'k'
-const DOWN_KEY = 'j'
-const RENAME_KEY = 'r'
+import keys from '@/utils/keys'
 
 const keymapProvider = createContext({
   selectedId: '',
@@ -79,19 +76,21 @@ export default function KeymapProvider({ children }) {
 
     const handler = (e) => {
       switch (e.key) {
-        case DOWN_KEY:
+        case keys.DOWN:
+        case keys.ArrowDOWN:
           down()
           e.stopPropagation()
           break
-        case UP_KEY:
+        case keys.UP:
+        case keys.ArrowUP:
           up()
           e.stopPropagation()
           break
-        case RENAME_KEY:
-          console.log('rename')
-          e.stopPropagation()
+        case keys.ENTER:
+        case keys.OPEN:
           break
         default:
+          console.log(`${e.key} key is not implemented in bookmark filer...`)
           break
       }
 

@@ -1,6 +1,6 @@
+import keys from '@/utils/keys'
 import { useEffect, useRef, useState } from 'react'
 
-const ESC_KEY = 'Escape'
 const INPUT_ELEMENTS = ['input', 'textarea', '[contenteditable]']
 
 const isTargetElement = (event, elements) => {
@@ -36,7 +36,7 @@ export function useToggleListener(hotKey, duration = 1000) {
         ref.current = 0
       }
 
-      if (e.key === ESC_KEY) {
+      if (e.key === keys.ESC) {
         close()
       }
     }

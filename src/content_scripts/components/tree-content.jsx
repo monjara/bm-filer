@@ -1,5 +1,6 @@
 import getFavicon from '@/utils/getFavicon'
 import isDir from '@/utils/isDir'
+import keys from '@/utils/keys'
 import { useEffect } from 'react'
 import { useKeymapProvider } from '../provider/keymap-provider'
 import Folder from './folder'
@@ -11,7 +12,7 @@ export default function TreeContent({ item, isOpen, toggle, depth }) {
 
   useEffect(() => {
     const handler = (e) => {
-      if (e.key === 'Enter' || e.key === 'l') {
+      if (e.key === keys.ENTER || e.key === keys.OPEN) {
         if (isSelected) {
           if (item?.url) {
             window.open(item.url, '_blank')
