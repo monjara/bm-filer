@@ -12,6 +12,11 @@ export function useToggleListener(hotKey, duration = 1000) {
   const [isPressed, setIsPressed] = useState(false)
   const ref = useRef(0)
 
+  const close = () => {
+    setIsPressed(false)
+    ref.current = 0
+  }
+
   useEffect(() => {
     let timerId
     const handler = (e) => {
@@ -32,7 +37,7 @@ export function useToggleListener(hotKey, duration = 1000) {
       }
 
       if (e.key === ESC_KEY) {
-        setIsPressed(false)
+        close()
       }
     }
 
@@ -43,7 +48,7 @@ export function useToggleListener(hotKey, duration = 1000) {
       clearTimeout(timerId)
       window.removeEventListener('keydown', handler)
     }
-  }, [hotKey, duration])
+  }, [hotKey, duration, close])
 
   useEffect(() => {
     if (isPressed) {
@@ -58,5 +63,6 @@ export function useToggleListener(hotKey, duration = 1000) {
   return {
     items,
     isPressed,
+    close,
   }
 }
