@@ -57,8 +57,8 @@ export function useToggleListener(hotKey, duration = 1000) {
     items,
     isPressed,
     close,
-    reloadItems: (value) => {
-      setItems(value)
+    reloadItems: (tree) => {
+      setItems(tree)
     },
   }
 }

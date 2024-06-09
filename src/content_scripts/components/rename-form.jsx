@@ -1,14 +1,42 @@
-import { useRef } from 'react'
+import isTargetElement from '@/utils/isTargetElement'
+import keys from '@/utils/keys'
+import { useEffect, useRef } from 'react'
 import { useRenameContext } from '../provider/rename-provider'
 
 export default function RenameForm() {
   const { oldTitle, update, cancel } = useRenameContext()
   const inputRef = useRef(null)
 
-  const onSubmit = async (e) => {
-    await update(inputRef.current.value)
+  const onSubmit = (e) => {
+    inputRef.current.blur()
+    update(inputRef.current.value)
+    cancel()
     e.preventDefault()
   }
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus()
+    }
+  }, [])
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (isTargetElement(e, ['#title'])) {
+        if (e.key === keys.ESC) {
+          inputRef.current.blur()
+          cancel()
+        }
+      }
+      if (e.key === keys.ENTER) {
+        onSubmit(e)
+      }
+    }
+    window.addEventListener('keydown', handler)
+    return () => {
+      window.removeEventListener('keydown', handler)
+    }
+  }, [onSubmit, cancel])
 
   return (
     <div

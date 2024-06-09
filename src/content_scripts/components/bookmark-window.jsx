@@ -1,5 +1,7 @@
+import { isRelatedTargetElement } from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
 import { useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import { useContentContext } from '../provider/content-provider'
 import { useRenameContext } from '../provider/rename-provider'
 import RenameForm from './rename-form'
@@ -15,6 +17,9 @@ export default function BookmarkWindow() {
     if (ref.current) {
       const focusoutHandler = (e) => {
         if (!e?.sourceCapabilities && e.target === ref.current) {
+          if (isRelatedTargetElement(e, ['#title'])) {
+            return
+          }
           close()
         } else {
           // ref.current.focus()
@@ -65,7 +70,7 @@ https://chromewebstore.google.com/detail/bookmark-filer/akjhpafliijgbfigfmcngflc
           ))}
         </div>
       </div>
-      {isRename && <RenameForm />}
+      {isRename && createPortal(<RenameForm />, document.body)}
     </div>
   )
 }

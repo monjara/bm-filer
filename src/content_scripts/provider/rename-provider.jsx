@@ -1,3 +1,4 @@
+import isTargetElement from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import { getBookmarks, updateBookmark } from '../utils/message'
@@ -22,10 +23,15 @@ export default function RenameProvider({ children }) {
   useEffect(() => {
     const handler = (e) => {
       if (e.key === keys.RENAME) {
+        if (isTargetElement(e, ['#title'])) {
+          return
+        }
+
         oldTitle.current = flatItems.find(
           (v) => String(v.id) === String(selectedId)
         ).title
-        setIsRename(true)
+        setIsRename(() => true)
+        e.preventDefault()
       }
     }
 
@@ -37,14 +43,13 @@ export default function RenameProvider({ children }) {
 
   const update = async (newTitle) => {
     await updateBookmark(selectedId, newTitle)
-    await getBookmarks().then((result) => {
+    getBookmarks().then((result) => {
       reloadItems(result.tree)
     })
-    setIsRename(false)
   }
 
   const cancel = () => {
-    setIsRename(false)
+    setIsRename(() => false)
   }
 
   return (

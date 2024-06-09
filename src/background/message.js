@@ -7,7 +7,9 @@ export function message(req, _, res) {
     })
   }
   if (req.type === 'update_bookmark') {
-    updateBookmark(req.id, req.title)
+    updateBookmark(req.id, req.title).then(() => {
+      res({ result: 'success' })
+    })
   }
   return true
 }

@@ -3,9 +3,13 @@ export const getBookmarks = async () => {
 }
 
 export const updateBookmark = async (id, title) => {
-  return await chrome.runtime.sendMessage({
-    type: 'update_bookmark',
-    id,
-    title,
-  })
+  await chrome.runtime
+    .sendMessage({
+      type: 'update_bookmark',
+      id,
+      title,
+    })
+    .then((res) => {
+      return res
+    })
 }
