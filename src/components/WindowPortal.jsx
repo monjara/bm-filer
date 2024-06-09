@@ -1,7 +1,7 @@
+import { useContentContext } from '@/providers/ContentProvider'
+import KeymapProvider from '@/providers/KeymapProvider'
+import RenameProvider from '@/providers/RenameProvider'
 import { createPortal } from 'react-dom'
-import { useContentContext } from '../provider/ContentProvider'
-import RenameProvider from '../provider/RenameProvider'
-import KeymapProvider from '../provider/keymap-provider'
 import BookmarkWindow from './BookmarkWindow'
 
 export default function WindowPortal() {

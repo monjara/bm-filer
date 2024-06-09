@@ -1,5 +1,5 @@
+import { useKeymapProvider } from '@/providers/KeymapProvider'
 import { useState } from 'react'
-import { useKeymapProvider } from '../provider/keymap-provider'
 
 export default function Tree({ markup, item, depth = 1 }) {
   const { manageOpen, updateSelectedId } = useKeymapProvider()

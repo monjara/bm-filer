@@ -3,7 +3,7 @@ import keys from '@/utils/keys'
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import { getBookmarks, updateBookmark } from '../utils/message'
 import { useContentContext } from './ContentProvider'
-import { useKeymapProvider } from './keymap-provider'
+import { useKeymapProvider } from './KeymapProvider'
 
 const renameProvider = createContext({
   oldTitle: '',

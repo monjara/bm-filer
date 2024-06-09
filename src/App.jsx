@@ -1,8 +1,8 @@
-import '@/content_scripts/app.css'
-import ContentProvider from '@/content_scripts/provider/ContentProvider'
+import WindowPortal from '@/components/WindowPortal'
+import ContentProvider from '@/providers/ContentProvider'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import WindowPortal from './components/WindowPortal'
+import './app.css'
 
 const root = document.createElement('div')
 root.id = 'bm-filer-root'
