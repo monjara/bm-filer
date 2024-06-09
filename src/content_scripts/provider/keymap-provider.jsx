@@ -1,9 +1,7 @@
+import isTargetElement from '@/utils/isTargetElement'
+import keys from '@/utils/keys'
 import { createContext, useContext, useEffect, useState } from 'react'
 import { useContentContext } from './content-provider'
-
-const UP_KEY = 'k'
-const DOWN_KEY = 'j'
-const RENAME_KEY = 'r'
 
 const keymapProvider = createContext({
   selectedId: '',
@@ -78,21 +76,17 @@ export default function KeymapProvider({ children }) {
     document.getElementById('hidden_input')?.focus()
 
     const handler = (e) => {
-      switch (e.key) {
-        case DOWN_KEY:
-          down()
-          e.stopPropagation()
-          break
-        case UP_KEY:
-          up()
-          e.stopPropagation()
-          break
-        case RENAME_KEY:
-          console.log('rename')
-          e.stopPropagation()
-          break
-        default:
-          break
+      if (isTargetElement(e, ['#title'])) {
+        return
+      }
+
+      if (e.key === keys.DOWN || e.key === keys.ArrowDOWN) {
+        down()
+        e.stopPropagation()
+      }
+      if (e.key === keys.UP || e.key === keys.ArrowUP) {
+        up()
+        e.stopPropagation()
       }
 
       document.getElementById(`d-${selectedId}`)?.scrollIntoView({

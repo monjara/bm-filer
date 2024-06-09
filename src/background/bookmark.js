@@ -29,3 +29,9 @@ function prepareTree(items) {
   }
   return items
 }
+
+export async function updateBookmark(id, title) {
+  await chrome.bookmarks.update(id, { title }).then(() => {
+    setBookmarks()
+  })
+}

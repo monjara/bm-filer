@@ -1,6 +1,6 @@
-import { useToggleListener } from '@/hooks/useToggleListener'
 import flatTree from '@/utils/flatTree'
 import { createContext, useContext, useMemo } from 'react'
+import { useToggleListener } from '../hooks/useToggleListener'
 
 const contentContext = createContext({
   isPressed: false,
@@ -9,12 +9,13 @@ const contentContext = createContext({
   flatItemIds: [],
   idAccessor: {},
   close: () => {},
+  reloadItems: () => {},
 })
 
 export const useContentContext = () => useContext(contentContext)
 
 export default function ContentProvider({ children }) {
-  const { items, isPressed, close } = useToggleListener('a', 1000)
+  const { items, isPressed, close, reloadItems } = useToggleListener('a', 1000)
 
   const flatItems = useMemo(() => flatTree(items), [items])
   const flatItemIds = useMemo(
@@ -49,6 +50,7 @@ export default function ContentProvider({ children }) {
         idAccessor,
         isPressed,
         close,
+        reloadItems,
       }}
     >
       {children}
