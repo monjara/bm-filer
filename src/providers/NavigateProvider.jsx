@@ -3,21 +3,21 @@ import keys from '@/utils/keys'
 import { createContext, useContext, useEffect, useState } from 'react'
 import { useItemsContext } from './ItemsProvider'
 
-const keymapProvider = createContext({
+const navigateProvider = createContext({
   selectedId: '',
-  manageOpen: () => {},
+  recordFolderOpen: () => {},
   updateSelectedId: () => {},
 })
 
-export const useKeymapProvider = () => useContext(keymapProvider)
+export const useNavigateProvider = () => useContext(navigateProvider)
 
-export default function KeymapProvider({ children }) {
+export default function NavigateProvider({ children }) {
   const { idAccessor, flatItemIds } = useItemsContext()
   const [selectedId, setSelectedId] = useState(flatItemIds[0] || '')
-  const [openManager, setOpenManager] = useState({})
+  const [openLedger, setOpenLedger] = useState({})
 
-  const manageOpen = (id, isOpen) => {
-    setOpenManager((old) => ({
+  const recordFolderOpen = (id, isOpen) => {
+    setOpenLedger((old) => ({
       ...old,
       [id]: isOpen,
     }))
@@ -33,7 +33,7 @@ export default function KeymapProvider({ children }) {
       return id
     }
 
-    const isParentOpen = openManager?.[parentId] ?? false
+    const isParentOpen = openLedger?.[parentId] ?? false
     if (isParentOpen) {
       return id
     }
@@ -47,7 +47,7 @@ export default function KeymapProvider({ children }) {
       return id
     }
 
-    const isParentOpen = openManager?.[parentId] ?? false
+    const isParentOpen = openLedger?.[parentId] ?? false
     if (isParentOpen) {
       if (id !== origin) {
         return id
@@ -101,14 +101,14 @@ export default function KeymapProvider({ children }) {
   }, [selectedId, down, up])
 
   return (
-    <keymapProvider.Provider
+    <navigateProvider.Provider
       value={{
         selectedId,
-        manageOpen,
+        recordFolderOpen,
         updateSelectedId,
       }}
     >
       {children}
-    </keymapProvider.Provider>
+    </navigateProvider.Provider>
   )
 }

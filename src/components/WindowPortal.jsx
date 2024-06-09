@@ -1,4 +1,4 @@
-import KeymapProvider from '@/providers/KeymapProvider'
+import NavigateProvider from '@/providers/NavigateProvider'
 import RenameProvider from '@/providers/RenameProvider'
 import { useToggleContext } from '@/providers/ToggleProvider'
 import { createPortal } from 'react-dom'
@@ -12,11 +12,11 @@ export default function WindowPortal() {
   }
 
   return createPortal(
-    <KeymapProvider>
+    <NavigateProvider>
       <RenameProvider>
         <BookmarkWindow />
       </RenameProvider>
-    </KeymapProvider>,
+    </NavigateProvider>,
     document.body
   )
 }
