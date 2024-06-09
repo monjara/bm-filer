@@ -1,22 +1,21 @@
 import flatTree from '@/utils/flatTree'
-import { createContext, useContext, useMemo } from 'react'
-import { useToggleListener } from '../hooks/useToggleListener'
+import { getBookmarks } from '@/utils/message'
+import { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import { useToggleContext } from './ToggleProvider'
 
-const contentContext = createContext({
-  isPressed: false,
+const itemsContext = createContext({
   items: [],
   flatItems: [],
   flatItemIds: [],
   idAccessor: {},
-  close: () => {},
   reloadItems: () => {},
 })
 
-export const useContentContext = () => useContext(contentContext)
+export const useItemsContext = () => useContext(itemsContext)
 
-export default function ContentProvider({ children }) {
-  const { items, isPressed, close, reloadItems } = useToggleListener('a', 1000)
-
+export default function ItemsProvider({ children }) {
+  const { open } = useToggleContext()
+  const [items, setItems] = useState([])
   const flatItems = useMemo(() => flatTree(items), [items])
   const flatItemIds = useMemo(
     () => flatItems.map((item) => item.id),
@@ -41,19 +40,29 @@ export default function ContentProvider({ children }) {
     }, {})
   }, [flatItems])
 
+  useEffect(() => {
+    if (open) {
+      getBookmarks().then((result) => {
+        setItems(result.tree)
+      })
+    }
+  }, [open])
+
+  const reloadItems = (tree) => {
+    setItems(tree)
+  }
+
   return (
-    <contentContext.Provider
+    <itemsContext.Provider
       value={{
         items,
         flatItems,
         flatItemIds,
         idAccessor,
-        isPressed,
-        close,
         reloadItems,
       }}
     >
       {children}
-    </contentContext.Provider>
+    </itemsContext.Provider>
   )
 }

@@ -27,7 +27,7 @@
         "<all_urls>"
       ],
       "js": [
-        "src/content_scripts/App.jsx"
+        "src/App.jsx"
       ]
     }
   ],

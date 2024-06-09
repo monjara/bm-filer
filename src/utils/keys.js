@@ -1,4 +1,5 @@
 const keys = {
+  MODAL_OPEN: 'a',
   DOWN: 'j',
   ArrowDOWN: 'ArrowDown',
   UP: 'k',

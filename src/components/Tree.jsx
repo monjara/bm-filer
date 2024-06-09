@@ -1,13 +1,13 @@
+import { useNavigateProvider } from '@/providers/NavigateProvider'
 import { useState } from 'react'
-import { useKeymapProvider } from '../provider/keymap-provider'
 
 export default function Tree({ markup, item, depth = 1 }) {
-  const { manageOpen, updateSelectedId } = useKeymapProvider()
+  const { recordFolderOpen, updateSelectedId } = useNavigateProvider()
   const [isOpen, setIsOpen] = useState(false)
 
   const toggle = (id) => {
     updateSelectedId(id)
-    manageOpen(id, !isOpen)
+    recordFolderOpen(id, !isOpen)
     setIsOpen((old) => !old)
   }
 

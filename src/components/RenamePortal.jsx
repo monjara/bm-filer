@@ -1,44 +1,53 @@
+import { useRenameContext } from '@/providers/RenameProvider'
 import isTargetElement from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
 import { useEffect, useRef } from 'react'
-import { useRenameContext } from '../provider/RenameProvider'
+import { createPortal } from 'react-dom'
 
-export default function RenameForm() {
-  const { oldTitle, update, cancel } = useRenameContext()
+export default function RenamePortal() {
+  const { isRename, oldTitle, update, cancel } = useRenameContext()
   const inputRef = useRef(null)
 
   const onSubmit = (e) => {
-    inputRef.current.blur()
-    update(inputRef.current.value)
-    cancel()
-    e.preventDefault()
+    if (inputRef?.current) {
+      inputRef.current.blur()
+      update(inputRef.current.value)
+      cancel()
+      e.preventDefault()
+    }
   }
 
   useEffect(() => {
-    if (inputRef.current) {
+    if (isRename && inputRef?.current) {
       inputRef.current.focus()
     }
-  }, [])
+  }, [isRename])
 
   useEffect(() => {
-    const handler = (e) => {
-      if (isTargetElement(e, ['#title'])) {
-        if (e.key === keys.ESC) {
-          inputRef.current.blur()
-          cancel()
+    if (isRename && inputRef?.current) {
+      const handler = (e) => {
+        if (isTargetElement(e, ['#title'])) {
+          if (e.key === keys.ESC) {
+            inputRef.current.blur()
+            cancel()
+          }
+        }
+        if (e.key === keys.ENTER) {
+          onSubmit(e)
         }
       }
-      if (e.key === keys.ENTER) {
-        onSubmit(e)
+      window.addEventListener('keydown', handler)
+      return () => {
+        window.removeEventListener('keydown', handler)
       }
     }
-    window.addEventListener('keydown', handler)
-    return () => {
-      window.removeEventListener('keydown', handler)
-    }
-  }, [onSubmit, cancel])
+  }, [isRename, onSubmit, cancel])
 
-  return (
+  if (!isRename) {
+    return null
+  }
+
+  return createPortal(
     <div
       style={{
         position: 'fixed',
@@ -119,6 +128,7 @@ export default function RenameForm() {
           保存
         </button>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }

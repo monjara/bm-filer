@@ -1,14 +1,14 @@
+import { useNavigateProvider } from '@/providers/NavigateProvider'
 import getFavicon from '@/utils/getFavicon'
 import isDir from '@/utils/isDir'
 import isTargetElement from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
 import { useEffect } from 'react'
-import { useKeymapProvider } from '../provider/keymap-provider'
 import Folder from './Folder'
 import FolderOpen from './FolderOpen'
 
 export default function TreeContent({ item, isOpen, toggle, depth }) {
-  const { selectedId } = useKeymapProvider()
+  const { selectedId } = useNavigateProvider()
   const isSelected = item.id === selectedId
 
   useEffect(() => {
