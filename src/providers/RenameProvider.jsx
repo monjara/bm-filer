@@ -1,3 +1,4 @@
+import { shadowRoot } from '@/App'
 import isTargetElement from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
 import { getBookmarks, updateBookmark } from '@/utils/message'
@@ -35,9 +36,9 @@ export default function RenameProvider({ children }) {
       }
     }
 
-    window.addEventListener('keydown', handler)
+    shadowRoot.addEventListener('keydown', handler)
     return () => {
-      window.removeEventListener('keydown', handler)
+      shadowRoot.removeEventListener('keydown', handler)
     }
   }, [flatItems, selectedId])
 
