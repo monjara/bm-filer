@@ -2,7 +2,7 @@ import isTargetElement from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
 import { getBookmarks, updateBookmark } from '@/utils/message'
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
-import { useContentContext } from './ContentProvider'
+import { useItemsContext } from './ItemsProvider'
 import { useKeymapProvider } from './KeymapProvider'
 
 const renameProvider = createContext({
@@ -15,7 +15,7 @@ const renameProvider = createContext({
 export const useRenameContext = () => useContext(renameProvider)
 
 export default function RenameProvider({ children }) {
-  const { flatItems, reloadItems } = useContentContext()
+  const { flatItems, reloadItems } = useItemsContext()
   const { selectedId } = useKeymapProvider()
   const [isRename, setIsRename] = useState(false)
   const oldTitle = useRef('')

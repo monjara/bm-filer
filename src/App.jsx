@@ -1,6 +1,7 @@
 import '@/app.css'
 import WindowPortal from '@/components/WindowPortal'
-import ContentProvider from '@/providers/ContentProvider'
+import ItemsProvider from '@/providers/ItemsProvider'
+import ToggleProvider from '@/providers/ToggleProvider'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 
@@ -10,8 +11,10 @@ document.body.appendChild(root)
 
 ReactDOM.createRoot(root).render(
   <React.StrictMode>
-    <ContentProvider>
-      <WindowPortal />
-    </ContentProvider>
+    <ToggleProvider>
+      <ItemsProvider>
+        <WindowPortal />
+      </ItemsProvider>
+    </ToggleProvider>
   </React.StrictMode>
 )

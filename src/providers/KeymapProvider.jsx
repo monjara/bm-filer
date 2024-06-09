@@ -1,7 +1,7 @@
 import isTargetElement from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
 import { createContext, useContext, useEffect, useState } from 'react'
-import { useContentContext } from './ContentProvider'
+import { useItemsContext } from './ItemsProvider'
 
 const keymapProvider = createContext({
   selectedId: '',
@@ -12,7 +12,7 @@ const keymapProvider = createContext({
 export const useKeymapProvider = () => useContext(keymapProvider)
 
 export default function KeymapProvider({ children }) {
-  const { idAccessor, flatItemIds } = useContentContext()
+  const { idAccessor, flatItemIds } = useItemsContext()
   const [selectedId, setSelectedId] = useState(flatItemIds[0] || '')
   const [openManager, setOpenManager] = useState({})
 
