@@ -24,40 +24,96 @@
   border-radius: 30px;
   z-index: 999999;
 
-  .bm-filer-list-container {
-    width: 100%;
-    background: #fff;
-    overflow: auto;
-    padding: 10px;
-    border-radius: 10px;
-  }
+}
 
-  .folder-row {
-    border-bottom: 1px solid #ccc;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    height: 32px;
-    padding-left: 0.5rem;
-    margin-right: 0.5rem;
-    font-size: 14px;
-  }
+.bm-filer-list-container {
+  width: 100%;
+  background: #fff;
+  overflow: auto;
+  padding: 10px;
+  border-radius: 10px;
+}
 
-  .link-row {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 12px;
-    border-bottom: 1px solid #ccc;
-    color: inherit;
-    text-decoration: none;
-    height: 32px;
-    padding-left: 0.5rem;
-    margin-right: 0.5rem;
-  }
+.selected, .link-row:hover,.folder-row:hover {
+  background: #f0f0f0;
+}
 
-  .selected, .link-row:hover,.folder-row:hover {
-    background: #f0f0f0;
-  }
+.folder_row {
+  border-bottom: 1px solid #ccc;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 32px;
+  padding-left: 0.5rem;
+  margin-right: 0.5rem;
+  font-size: 14px;
+}
+
+.link_row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 12px;
+  border-bottom: 1px solid #ccc;
+  color: inherit;
+  text-decoration: none;
+  height: 32px;
+  padding-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+
+.rename_container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 1rem;
+  background-color: white;
+  border: 1px solid black;
+  z-index: 99999999999999;
+  color: black;
+  border-radius: 12px;
+}
+
+.rename_input_row {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.rename_input {
+  background-color: white;
+  color: black;
+  padding: 0.5rem;
+  border-radius: 12px;
+  border: 1px solid black;
+  width: 15rem;
+}
+
+.rename_button_row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.rename_button_cancel {
+  padding: 4px 8px;
+  border-radius: 12px;
+  border: 1px solid gray;
+  color: gray;
+  background: white;
+  width: 6rem;
+}
+
+.rename_button_submit {
+  padding: 4px 8px;
+  border-radius: 12px;
+  border: 1px solid #1976d2;
+  color: white;
+  background: #1976d2;
+  width: 6rem;
 }

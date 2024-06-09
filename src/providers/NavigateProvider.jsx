@@ -1,3 +1,4 @@
+import { shadowRoot } from '@/App'
 import isTargetElement from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
 import { createContext, useContext, useEffect, useState } from 'react'
@@ -73,7 +74,7 @@ export default function NavigateProvider({ children }) {
   }
 
   useEffect(() => {
-    document.getElementById('hidden_input')?.focus()
+    shadowRoot.getElementById('hidden_input')?.focus()
 
     const handler = (e) => {
       if (isTargetElement(e, ['#title'])) {
@@ -89,14 +90,14 @@ export default function NavigateProvider({ children }) {
         e.stopPropagation()
       }
 
-      document.getElementById(`d-${selectedId}`)?.scrollIntoView({
+      shadowRoot.getElementById(`d-${selectedId}`)?.scrollIntoView({
         block: 'center',
       })
     }
 
-    window.addEventListener('keydown', handler)
+    shadowRoot.addEventListener('keydown', handler, true)
     return () => {
-      window.removeEventListener('keydown', handler)
+      shadowRoot.removeEventListener('keydown', handler, true)
     }
   }, [selectedId, down, up])
 

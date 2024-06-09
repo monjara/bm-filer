@@ -1,3 +1,4 @@
+import { shadowRoot } from '@/App'
 import { useItemsContext } from '@/providers/ItemsProvider'
 import { useToggleContext } from '@/providers/ToggleProvider'
 import { isRelatedTargetElement } from '@/utils/isTargetElement'
@@ -30,17 +31,17 @@ export default function BookmarkWindow() {
         }
       }
 
-      window.addEventListener('keydown', keyDownHandler)
-      window.addEventListener('focusout', focusoutHandler)
+      shadowRoot.addEventListener('keydown', keyDownHandler, true)
+      shadowRoot.addEventListener('focusout', focusoutHandler, true)
       return () => {
-        window.removeEventListener('keydown', keyDownHandler)
-        window.removeEventListener('focusout', focusoutHandler)
+        shadowRoot.removeEventListener('keydown', keyDownHandler, true)
+        shadowRoot.removeEventListener('focusout', focusoutHandler, true)
       }
     }
   }, [close])
 
   return (
-    <div className='bm-filer-cover'>
+    <div className='bm-filer-cover' id='bm-filer-cover'>
       <div
         // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
         dangerouslySetInnerHTML={{

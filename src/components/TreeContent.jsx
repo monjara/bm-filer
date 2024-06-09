@@ -1,3 +1,4 @@
+import { shadowRoot } from '@/App'
 import { useNavigateProvider } from '@/providers/NavigateProvider'
 import getFavicon from '@/utils/getFavicon'
 import isDir from '@/utils/isDir'
@@ -28,9 +29,9 @@ export default function TreeContent({ item, isOpen, toggle, depth }) {
       }
     }
 
-    document.addEventListener('keydown', handler)
+    shadowRoot.addEventListener('keydown', handler)
     return () => {
-      document.removeEventListener('keydown', handler)
+      shadowRoot.removeEventListener('keydown', handler)
     }
   }, [toggle, item, isSelected])
 
@@ -43,7 +44,7 @@ export default function TreeContent({ item, isOpen, toggle, depth }) {
     >
       {isDir(item) ? (
         <div
-          className={`folder-row ${isSelected ? 'selected' : ''}`}
+          className={`folder_row ${isSelected ? 'selected' : ''}`}
           onClick={() => toggle(item.id)}
           onKeyUp={() => toggle(item.id)}
         >
@@ -52,7 +53,7 @@ export default function TreeContent({ item, isOpen, toggle, depth }) {
         </div>
       ) : (
         <a
-          className={`link-row d-${depth} ${isSelected ? 'selected' : ''}`}
+          className={`link_row d-${depth} ${isSelected ? 'selected' : ''}`}
           href={item.url}
         >
           <img src={getFavicon(item.url)} alt='' style={{ width: 16 }} />
