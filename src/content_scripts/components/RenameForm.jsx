@@ -1,7 +1,7 @@
 import isTargetElement from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
 import { useEffect, useRef } from 'react'
-import { useRenameContext } from '../provider/rename-provider'
+import { useRenameContext } from '../provider/RenameProvider'
 
 export default function RenameForm() {
   const { oldTitle, update, cancel } = useRenameContext()

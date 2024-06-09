@@ -1,7 +1,7 @@
 import isTargetElement from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
 import { createContext, useContext, useEffect, useState } from 'react'
-import { useContentContext } from './content-provider'
+import { useContentContext } from './ContentProvider'
 
 const keymapProvider = createContext({
   selectedId: '',
