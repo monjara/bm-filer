@@ -1,7 +1,7 @@
 import { isInputTarget } from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
+import { getBookmarks } from '@/utils/message'
 import { useEffect, useRef, useState } from 'react'
-import { getBookmarks } from '../utils/message'
 
 export function useToggleListener(hotKey, duration = 1000) {
   const [items, setItems] = useState([])

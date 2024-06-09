@@ -1,7 +1,7 @@
 import isTargetElement from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
+import { getBookmarks, updateBookmark } from '@/utils/message'
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
-import { getBookmarks, updateBookmark } from '../utils/message'
 import { useContentContext } from './ContentProvider'
 import { useKeymapProvider } from './KeymapProvider'
 
