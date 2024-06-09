@@ -2,11 +2,11 @@ import { isRelatedTargetElement } from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
 import { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
-import { useContentContext } from '../provider/content-provider'
-import { useRenameContext } from '../provider/rename-provider'
-import RenameForm from './rename-form'
-import Tree from './tree'
-import TreeContent from './tree-content'
+import { useContentContext } from '../provider/ContentProvider'
+import { useRenameContext } from '../provider/RenameProvider'
+import RenameForm from './RenameForm'
+import Tree from './Tree'
+import TreeContent from './TreeContent'
 
 export default function BookmarkWindow() {
   const { items, close } = useContentContext()

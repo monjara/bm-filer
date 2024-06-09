@@ -4,8 +4,8 @@ import isTargetElement from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
 import { useEffect } from 'react'
 import { useKeymapProvider } from '../provider/keymap-provider'
-import Folder from './folder'
-import FolderOpen from './folder-open'
+import Folder from './Folder'
+import FolderOpen from './FolderOpen'
 
 export default function TreeContent({ item, isOpen, toggle, depth }) {
   const { selectedId } = useKeymapProvider()

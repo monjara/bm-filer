@@ -2,7 +2,7 @@ import isTargetElement from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import { getBookmarks, updateBookmark } from '../utils/message'
-import { useContentContext } from './content-provider'
+import { useContentContext } from './ContentProvider'
 import { useKeymapProvider } from './keymap-provider'
 
 const renameProvider = createContext({

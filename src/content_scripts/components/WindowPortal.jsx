@@ -1,10 +1,10 @@
 import { createPortal } from 'react-dom'
-import { useContentContext } from '../provider/content-provider'
+import { useContentContext } from '../provider/ContentProvider'
+import RenameProvider from '../provider/RenameProvider'
 import KeymapProvider from '../provider/keymap-provider'
-import RenameProvider from '../provider/rename-provider'
-import BookmarkWindow from './bookmark-window'
+import BookmarkWindow from './BookmarkWindow'
 
-export default function Content() {
+export default function WindowPortal() {
   const { isPressed } = useContentContext()
 
   if (!isPressed) {
