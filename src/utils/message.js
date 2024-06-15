@@ -13,3 +13,16 @@ export const updateBookmark = async (id, title) => {
       return res
     })
 }
+
+export const moveBookmark = async (id, distIndex, distParentId) => {
+  await chrome.runtime
+    .sendMessage({
+      type: 'move_bookmark',
+      id,
+      distIndex,
+      distParentId,
+    })
+    .then((res) => {
+      return res
+    })
+}
