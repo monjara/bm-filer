@@ -1,9 +1,9 @@
-import { setBookmarks } from './bookmark'
 import { message } from './message'
+import { resetTree } from './storage/tree'
 
 chrome.runtime.onMessage.addListener(message)
-chrome.runtime.onInstalled.addListener(setBookmarks)
-chrome.bookmarks.onCreated.addListener(setBookmarks)
-chrome.bookmarks.onRemoved.addListener(setBookmarks)
-chrome.bookmarks.onChanged.addListener(setBookmarks)
-chrome.bookmarks.onMoved.addListener(setBookmarks)
+chrome.runtime.onInstalled.addListener(resetTree)
+chrome.bookmarks.onCreated.addListener(resetTree)
+chrome.bookmarks.onRemoved.addListener(resetTree)
+chrome.bookmarks.onChanged.addListener(resetTree)
+chrome.bookmarks.onMoved.addListener(resetTree)

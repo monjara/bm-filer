@@ -1,5 +1,5 @@
 import { shadowRoot } from '@/App'
-import { useNavigateProvider } from '@/providers/NavigateProvider'
+import { useNavigateContext } from '@/providers/NavigateProvider'
 import getFavicon from '@/utils/getFavicon'
 import isDir from '@/utils/isDir'
 import isTargetElement from '@/utils/isTargetElement'
@@ -9,7 +9,7 @@ import Folder from './Folder'
 import FolderOpen from './FolderOpen'
 
 export default function TreeContent({ item, isOpen, toggle, depth }) {
-  const { selectedId } = useNavigateProvider()
+  const { selectedId } = useNavigateContext()
   const isSelected = item.id === selectedId
 
   useEffect(() => {

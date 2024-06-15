@@ -8,9 +8,10 @@ const navigateProvider = createContext({
   selectedId: '',
   recordFolderOpen: () => {},
   updateSelectedId: () => {},
+  down: () => {},
 })
 
-export const useNavigateProvider = () => useContext(navigateProvider)
+export const useNavigateContext = () => useContext(navigateProvider)
 
 export default function NavigateProvider({ children }) {
   const { idAccessor, flatItemIds } = useItemsContext()
@@ -107,6 +108,7 @@ export default function NavigateProvider({ children }) {
         selectedId,
         recordFolderOpen,
         updateSelectedId,
+        down /** FIXME */,
       }}
     >
       {children}

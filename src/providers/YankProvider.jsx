@@ -1,35 +1,35 @@
 import useRepeatKeys from '@/hooks/useRepeatKeys'
 import keys from '@/utils/keys'
-import { createContext, useContext, useState } from 'react'
+import { copyBookmark } from '@/utils/message'
+import { createContext, useCallback, useContext, useState } from 'react'
 import { useItemsContext } from './ItemsProvider'
-import { useNavigateProvider } from './NavigateProvider'
+import { useNavigateContext } from './NavigateProvider'
 
 const yankProvider = createContext({
-  yankItem: undefined,
+  yank: () => {},
 })
 
 export const useYankContext = () => useContext(yankProvider)
 
 export default function YankProvider({ children }) {
-  const { flatItems } = useItemsContext()
-  const { selectedId } = useNavigateProvider()
-  const [yankItem, setYankItem] = useState(undefined)
+  const { selectedId } = useNavigateContext()
 
   useRepeatKeys(
     keys.YANK,
     () => {
-      const yankItem = flatItems.find(
-        (v) => String(v.id) === String(selectedId)
-      )
-      setYankItem(yankItem)
+      yank(selectedId)
     },
     { duration: 500 }
   )
 
+  const yank = useCallback((id) => {
+    copyBookmark(id)
+  }, [])
+
   return (
     <yankProvider.Provider
       value={{
-        yankItem,
+        yank,
       }}
     >
       {children}

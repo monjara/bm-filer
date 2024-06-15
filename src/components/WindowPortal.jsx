@@ -1,4 +1,5 @@
 import styles from '@/App.css?inline'
+import CutProvider from '@/providers/CutProvider'
 import NavigateProvider from '@/providers/NavigateProvider'
 import PasteProvider from '@/providers/PasteProvider'
 import RenameProvider from '@/providers/RenameProvider'
@@ -17,10 +18,12 @@ export default function WindowPortal() {
     <NavigateProvider>
       <RenameProvider>
         <YankProvider>
-          <PasteProvider>
-            <BookmarkWindow />
-            <style>{styles}</style>
-          </PasteProvider>
+          <CutProvider>
+            <PasteProvider>
+              <BookmarkWindow />
+              <style>{styles}</style>
+            </PasteProvider>
+          </CutProvider>
         </YankProvider>
       </RenameProvider>
     </NavigateProvider>
