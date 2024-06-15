@@ -1,8 +1,8 @@
-import { useNavigateProvider } from '@/providers/NavigateProvider'
+import { useNavigateContext } from '@/providers/NavigateProvider'
 import { useState } from 'react'
 
 export default function Tree({ markup, item, depth = 1 }) {
-  const { recordFolderOpen, updateSelectedId } = useNavigateProvider()
+  const { recordFolderOpen, updateSelectedId } = useNavigateContext()
   const [isOpen, setIsOpen] = useState(false)
 
   const toggle = (id) => {

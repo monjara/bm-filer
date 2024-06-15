@@ -1,3 +1,5 @@
+import returnResult from './returnResult'
+
 export const getBookmarks = async () => {
   return await chrome.runtime.sendMessage({ type: 'get_bookmarks' })
 }
@@ -9,20 +11,36 @@ export const updateBookmark = async (id, title) => {
       id,
       title,
     })
-    .then((res) => {
-      return res
-    })
+    .then(returnResult)
 }
 
-export const moveBookmark = async (id, distIndex, distParentId) => {
+export const copyBookmark = async (id) => {
   await chrome.runtime
     .sendMessage({
-      type: 'move_bookmark',
+      type: 'copy_bookmark',
       id,
+    })
+    .then(returnResult)
+}
+
+export const removeBookmark = async (id) => {
+  await chrome.runtime
+    .sendMessage({
+      type: 'remove_bookmark',
+      id,
+    })
+    .then(returnResult)
+}
+
+export const pasteBookmark = async ({
+  index: distIndex,
+  parentId: distParentId,
+}) => {
+  await chrome.runtime
+    .sendMessage({
+      type: 'paste_bookmark',
       distIndex,
       distParentId,
     })
-    .then((res) => {
-      return res
-    })
+    .then(returnResult)
 }

@@ -1,21 +1,43 @@
-import { getBookmarks, moveBookmark, updateBookmark } from './bookmark'
+import {
+  copyBookmark,
+  createBookmark,
+  getBookmarks,
+  removeBookmark,
+  updateBookmark,
+} from './bookmark'
 
 export function message(req, _, res) {
-  if (req.type === 'get_bookmarks') {
-    getBookmarks().then((result) => {
-      res({ tree: result.tree })
-    })
-  }
-  if (req.type === 'update_bookmark') {
-    updateBookmark(req.id, req.title).then(() => {
+  switch (req.type) {
+    case 'get_bookmarks':
+      getBookmarks().then((result) => {
+        res({ tree: result.tree })
+      })
+      break
+    case 'update_bookmark':
+      updateBookmark(req.id, req.title).then(() => {
+        res({ result: 'success' })
+      })
+      break
+    case 'copy_bookmark':
+      copyBookmark(req.id)
       res({ result: 'success' })
-    })
-  }
-  if (req.type === 'move_bookmark') {
-    const { id, distIndex, distParentId } = req
-    moveBookmark(id, { index: distIndex, parentId: distParentId }).then(() => {
-      res({ result: 'success' })
-    })
+      break
+    case 'paste_bookmark':
+      createBookmark({
+        index: req.distIndex,
+        parentId: req.distParentId,
+        fromRegister: true,
+      }).then(() => {
+        res({ result: 'success' })
+      })
+      break
+    case 'remove_bookmark':
+      removeBookmark(req.id).then(() => {
+        res({ result: 'success' })
+      })
+      break
+    default:
+      break
   }
   return true
 }

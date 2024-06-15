@@ -4,7 +4,7 @@ import keys from '@/utils/keys'
 import { getBookmarks, updateBookmark } from '@/utils/message'
 import { createContext, useContext, useRef, useState } from 'react'
 import { useItemsContext } from './ItemsProvider'
-import { useNavigateProvider } from './NavigateProvider'
+import { useNavigateContext } from './NavigateProvider'
 
 const renameProvider = createContext({
   oldTitle: '',
@@ -17,7 +17,7 @@ export const useRenameContext = () => useContext(renameProvider)
 
 export default function RenameProvider({ children }) {
   const { flatItems, reloadItems } = useItemsContext()
-  const { selectedId } = useNavigateProvider()
+  const { selectedId } = useNavigateContext()
   const [isRename, setIsRename] = useState(false)
   const oldTitle = useRef('')
 
