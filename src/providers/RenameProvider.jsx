@@ -1,8 +1,8 @@
-import { shadowRoot } from '@/App'
+import useSingleKey from '@/hooks/useSingleKey'
 import isTargetElement from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
 import { getBookmarks, updateBookmark } from '@/utils/message'
-import { createContext, useContext, useEffect, useRef, useState } from 'react'
+import { createContext, useContext, useRef, useState } from 'react'
 import { useItemsContext } from './ItemsProvider'
 import { useNavigateProvider } from './NavigateProvider'
 
@@ -21,26 +21,17 @@ export default function RenameProvider({ children }) {
   const [isRename, setIsRename] = useState(false)
   const oldTitle = useRef('')
 
-  useEffect(() => {
-    const handler = (e) => {
-      if (e.key === keys.RENAME) {
-        if (isTargetElement(e, ['#title'])) {
-          return
-        }
-
-        oldTitle.current = flatItems.find(
-          (v) => String(v.id) === String(selectedId)
-        ).title
-        setIsRename(() => true)
-        e.preventDefault()
-      }
+  useSingleKey(keys.RENAME, (e) => {
+    if (isTargetElement(e, ['#title'])) {
+      return
     }
 
-    shadowRoot.addEventListener('keydown', handler)
-    return () => {
-      shadowRoot.removeEventListener('keydown', handler)
-    }
-  }, [flatItems, selectedId])
+    oldTitle.current = flatItems.find(
+      (v) => String(v.id) === String(selectedId)
+    ).title
+    setIsRename(() => true)
+    e.preventDefault()
+  })
 
   const update = async (newTitle) => {
     await updateBookmark(selectedId, newTitle)
