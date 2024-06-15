@@ -35,3 +35,9 @@ export async function updateBookmark(id, title) {
     setBookmarks()
   })
 }
+
+export async function moveBookmark(id, { index, parentId }) {
+  await chrome.bookmarks.move(id, { index, parentId }).then(() => {
+    setBookmarks()
+  })
+}

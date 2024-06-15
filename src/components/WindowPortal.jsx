@@ -1,5 +1,6 @@
 import styles from '@/App.css?inline'
 import NavigateProvider from '@/providers/NavigateProvider'
+import PasteProvider from '@/providers/PasteProvider'
 import RenameProvider from '@/providers/RenameProvider'
 import { useToggleContext } from '@/providers/ToggleProvider'
 import YankProvider from '@/providers/YankProvider'
@@ -16,8 +17,10 @@ export default function WindowPortal() {
     <NavigateProvider>
       <RenameProvider>
         <YankProvider>
-          <BookmarkWindow />
-          <style>{styles}</style>
+          <PasteProvider>
+            <BookmarkWindow />
+            <style>{styles}</style>
+          </PasteProvider>
         </YankProvider>
       </RenameProvider>
     </NavigateProvider>
