@@ -9,7 +9,6 @@ const navigateProvider = createContext({
   openLedger: {},
   recordFolderOpen: () => {},
   updateSelectedId: () => {},
-  down: () => {},
 })
 
 export const useNavigateContext = () => useContext(navigateProvider)
@@ -110,7 +109,6 @@ export default function NavigateProvider({ children }) {
         openLedger,
         recordFolderOpen,
         updateSelectedId,
-        down /** FIXME */,
       }}
     >
       {children}
