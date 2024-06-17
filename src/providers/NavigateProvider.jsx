@@ -6,6 +6,7 @@ import { useItemsContext } from './ItemsProvider'
 
 const navigateProvider = createContext({
   selectedId: '',
+  openLedger: {},
   recordFolderOpen: () => {},
   updateSelectedId: () => {},
   down: () => {},
@@ -106,6 +107,7 @@ export default function NavigateProvider({ children }) {
     <navigateProvider.Provider
       value={{
         selectedId,
+        openLedger,
         recordFolderOpen,
         updateSelectedId,
         down /** FIXME */,
