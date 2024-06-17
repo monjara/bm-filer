@@ -1,8 +1,7 @@
 import useRepeatKeys from '@/hooks/useRepeatKeys'
 import keys from '@/utils/keys'
 import { copyBookmark } from '@/utils/message'
-import { createContext, useCallback, useContext, useState } from 'react'
-import { useItemsContext } from './ItemsProvider'
+import { createContext, useCallback, useContext } from 'react'
 import { useNavigateContext } from './NavigateProvider'
 
 const yankProvider = createContext({
