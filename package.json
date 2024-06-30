@@ -8,15 +8,15 @@
     "build": "vite build",
     "preview": "vite preview",
     "format": "biome format --write src",
-    "lint": "biome lint --apply src",
-    "check": "biome check --apply src"
+    "lint": "biome lint --write src",
+    "check": "biome check --write src"
   },
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.7.3",
+    "@biomejs/biome": "1.8.3",
     "@crxjs/vite-plugin": "2.0.0-beta.23",
     "@types/chrome": "^0.0.268",
     "@types/react": "^18.2.66",

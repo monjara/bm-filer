@@ -1,5 +1,10 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "files": {
+    "ignore": [
+      "node_modules/*"
+    ]
+  },
   "organizeImports": {
     "enabled": true
   },
@@ -18,7 +23,7 @@
     "formatter": {
       "quoteStyle": "single",
       "jsxQuoteStyle": "single",
-      "trailingComma": "es5",
+      "trailingCommas": "es5",
       "semicolons": "asNeeded"
     }
   }
