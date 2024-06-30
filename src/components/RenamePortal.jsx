@@ -2,20 +2,23 @@ import { shadowRoot } from '@/App'
 import { useRenameContext } from '@/providers/RenameProvider'
 import isTargetElement from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 
 export default function RenamePortal() {
   const { isRename, oldTitle, update, cancel } = useRenameContext()
   const inputRef = useRef(null)
 
-  const onSubmit = (e) => {
-    if (inputRef?.current) {
-      inputRef.current.blur()
-      update(inputRef.current.value)
-      cancel()
-      e.preventDefault()
-    }
-  }
+  const onSubmit = useCallback(
+    (e) => {
+      if (inputRef?.current) {
+        inputRef.current.blur()
+        update(inputRef.current.value)
+        cancel()
+        e.preventDefault()
+      }
+    },
+    [update, cancel]
+  )
 
   useEffect(() => {
     if (isRename && inputRef?.current) {

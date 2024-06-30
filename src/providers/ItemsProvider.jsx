@@ -31,6 +31,8 @@ export default function ItemsProvider({ children }) {
       if (!acc[item.id]) {
         acc[item.id] = {}
       }
+      acc[item.id].id = item.id
+      acc[item.id].url = item?.url
       acc[item.id].prevDir = item.prevDir
       acc[item.id].nextDir = item.nextDir
       acc[item.id].parentDir = item.parentId
