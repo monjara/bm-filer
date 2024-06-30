@@ -1,7 +1,13 @@
 import { shadowRoot } from '@/App'
 import isTargetElement from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
-import { createContext, useContext, useEffect, useState } from 'react'
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 import { useItemsContext } from './ItemsProvider'
 
 const navigateProvider = createContext({
@@ -16,12 +22,14 @@ export const useNavigateContext = () => useContext(navigateProvider)
 export default function NavigateProvider({ children }) {
   const { idAccessor, flatItemIds } = useItemsContext()
   const [selectedId, setSelectedId] = useState(flatItemIds[0] || '')
-  const [openLedger, setOpenLedger] = useState({})
+  const [openLedger, setOpenLedger] = useState({
+    1: true,
+  })
 
-  const recordFolderOpen = (id, isOpen) => {
+  const recordFolderOpen = (id) => {
     setOpenLedger((old) => ({
       ...old,
-      [id]: isOpen,
+      [id]: !openLedger[id],
     }))
   }
 
@@ -29,50 +37,56 @@ export default function NavigateProvider({ children }) {
     setSelectedId(id)
   }
 
-  const findLeftDir = (id) => {
-    const parentId = idAccessor[id].parentDir
-    if (parentId === '0') {
-      return id
-    }
-
-    const isParentOpen = openLedger?.[parentId] ?? false
-    if (isParentOpen) {
-      return id
-    }
-
-    return findLeftDir(parentId)
-  }
-
-  const findRightDir = (id, origin) => {
-    const parentId = idAccessor[id].parentDir
-    if (parentId === '0') {
-      return id
-    }
-
-    const isParentOpen = openLedger?.[parentId] ?? false
-    if (isParentOpen) {
-      if (id !== origin) {
+  const findLeftDir = useCallback(
+    (id) => {
+      const parentId = idAccessor[id].parentDir
+      if (parentId === '0') {
         return id
       }
-    }
 
-    const right = idAccessor[id].right
-    return findRightDir(right, origin)
-  }
+      const isParentOpen = openLedger?.[parentId] ?? false
+      if (isParentOpen) {
+        return id
+      }
 
-  const up = () => {
+      return findLeftDir(parentId)
+    },
+    [idAccessor, openLedger]
+  )
+
+  const findRightDir = useCallback(
+    (id, origin) => {
+      const parentId = idAccessor[id].parentDir
+      if (parentId === '0') {
+        return id
+      }
+
+      const isParentOpen = openLedger?.[parentId] ?? false
+      if (isParentOpen) {
+        if (id !== origin) {
+          return id
+        }
+      }
+
+      const right = idAccessor[id].right
+      return findRightDir(right, origin)
+    },
+    [idAccessor, openLedger]
+  )
+
+  const up = useCallback(() => {
     const currentId = selectedId === '' ? flatItemIds[0] : selectedId
     const left = idAccessor[currentId].left
     const id = findLeftDir(left)
     setSelectedId(id)
-  }
+  }, [selectedId, idAccessor, flatItemIds, findLeftDir])
 
-  const down = () => {
+  const down = useCallback(() => {
     const currentId = selectedId === '' ? flatItemIds[0] : selectedId
     const right = idAccessor[currentId].right
     const id = findRightDir(right, currentId)
     setSelectedId(id)
-  }
+  }, [selectedId, idAccessor, flatItemIds[0], findRightDir])
 
   useEffect(() => {
     shadowRoot.getElementById('hidden_input')?.focus()

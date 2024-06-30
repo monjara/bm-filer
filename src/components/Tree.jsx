@@ -1,19 +1,12 @@
 import { useNavigateContext } from '@/providers/NavigateProvider'
-import { useState } from 'react'
 
 export default function Tree({ markup, item, depth = 1 }) {
-  const { recordFolderOpen, updateSelectedId } = useNavigateContext()
-  const [isOpen, setIsOpen] = useState(false)
-
-  const toggle = (id) => {
-    updateSelectedId(id)
-    recordFolderOpen(id, !isOpen)
-    setIsOpen((old) => !old)
-  }
+  const { openLedger } = useNavigateContext()
+  const isOpen = openLedger?.[item.id]
 
   return (
     <div>
-      {markup({ item, isOpen, toggle, depth })}
+      {markup({ item, isOpen, depth })}
       {isOpen &&
         item.children?.map((child) => (
           <Tree

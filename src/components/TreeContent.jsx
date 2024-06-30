@@ -1,39 +1,14 @@
-import { shadowRoot } from '@/App'
 import { useNavigateContext } from '@/providers/NavigateProvider'
+import { usePerformContext } from '@/providers/PerformProvider'
 import getFavicon from '@/utils/getFavicon'
 import isDir from '@/utils/isDir'
-import isTargetElement from '@/utils/isTargetElement'
-import keys from '@/utils/keys'
-import { useEffect } from 'react'
 import Folder from './Folder'
 import FolderOpen from './FolderOpen'
 
-export default function TreeContent({ item, isOpen, toggle, depth }) {
+export default function TreeContent({ item, isOpen, depth }) {
+  const { toggle } = usePerformContext()
   const { selectedId } = useNavigateContext()
-  const isSelected = item.id === selectedId
-
-  useEffect(() => {
-    const handler = (e) => {
-      if (isTargetElement(e, ['#title'])) {
-        return
-      }
-
-      if (e.key === keys.ENTER || e.key === keys.OPEN) {
-        if (isSelected) {
-          if (item?.url) {
-            window.open(item.url, '_blank')
-          } else {
-            toggle(item.id)
-          }
-        }
-      }
-    }
-
-    shadowRoot.addEventListener('keydown', handler)
-    return () => {
-      shadowRoot.removeEventListener('keydown', handler)
-    }
-  }, [toggle, item, isSelected])
+  const isSelected = selectedId === item.id
 
   return (
     <div
@@ -46,7 +21,7 @@ export default function TreeContent({ item, isOpen, toggle, depth }) {
         <div
           className={`folder_row ${isSelected ? 'selected' : ''}`}
           onClick={() => toggle(item.id)}
-          onKeyUp={() => toggle(item.id)}
+          onKeyUp={() => {}}
         >
           {isOpen ? <FolderOpen /> : <Folder />}
           <span>{item.title}</span>
