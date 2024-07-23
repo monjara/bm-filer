@@ -1,11 +1,11 @@
+import FolderOpen from '@/icons/folder-open.svg?react'
+import Folder from '@/icons/folder.svg?react'
 import { useNavigateContext } from '@/providers/NavigateProvider'
 import { usePerformContext } from '@/providers/PerformProvider'
 import getFavicon from '@/utils/getFavicon'
 import isDir from '@/utils/isDir'
-import Folder from './Folder'
-import FolderOpen from './FolderOpen'
 
-export default function TreeContent({ item, isOpen, depth }) {
+export default function TreeItem({ item, isOpen, depth }) {
   const { toggle } = usePerformContext()
   const { selectedId } = useNavigateContext()
   const isSelected = selectedId === item.id
