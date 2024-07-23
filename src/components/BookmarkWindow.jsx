@@ -5,8 +5,7 @@ import { isRelatedTargetElement } from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
 import { useEffect, useRef } from 'react'
 import RenamePortal from './RenamePortal'
-import Tree from './Tree'
-import TreeContent from './TreeContent'
+import Root from './Root'
 
 export default function BookmarkWindow() {
   const { close } = useToggleContext()
@@ -64,11 +63,7 @@ https://chromewebstore.google.com/detail/bookmark-filer/akjhpafliijgbfigfmcngflc
         }}
       />
       <div className='bm-filer-window'>
-        <div className='bm-filer-list-container'>
-          {items.map((item) => (
-            <Tree key={item.id} item={item} markup={TreeContent} />
-          ))}
-        </div>
+        <Root items={items} />
       </div>
       <RenamePortal />
     </div>
