@@ -23,7 +23,6 @@
   padding: 20px;
   border-radius: 30px;
   z-index: 999999;
-
 }
 
 .bm-filer-list-container {
@@ -34,7 +33,7 @@
   border-radius: 10px;
 }
 
-.selected, .link-row:hover,.folder-row:hover {
+.selected, .link_row:hover, .folder_row:hover {
   background: #f0f0f0;
 }
 
@@ -44,7 +43,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  height: 32px;
+  min-height: 2rem;
   padding-left: 0.5rem;
   margin-right: 0.5rem;
   font-size: 14px;
@@ -58,7 +57,7 @@
   border-bottom: 1px solid #ccc;
   color: inherit;
   text-decoration: none;
-  height: 32px;
+  min-height: 2rem;
   padding-left: 0.5rem;
   margin-right: 0.5rem;
 }

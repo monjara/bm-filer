@@ -3,7 +3,7 @@ import { useItemsContext } from '@/providers/ItemsProvider'
 import { useToggleContext } from '@/providers/ToggleProvider'
 import { isRelatedTargetElement } from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import RenamePortal from './RenamePortal'
 import Root from './Root'
 
@@ -39,18 +39,19 @@ export default function BookmarkWindow() {
     }
   }, [close])
 
+  const onClick = useCallback((e) => {
+    if (e.target.id === 'bm-filer-cover') {
+      close()
+    }
+  }, [close])
+
   return (
-    <div className='bm-filer-cover' id='bm-filer-cover'>
-      <div
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
-        dangerouslySetInnerHTML={{
-          __html: `<!--
-To avoid conflicts with other extension (like vimium) key bindings, this input element gets focus.
-If you have a better way to do this, please let me know.
-https://chromewebstore.google.com/detail/bookmark-filer/akjhpafliijgbfigfmcngflcfdcpokfi
--->`,
-        }}
-      />
+    <div
+      id='bm-filer-cover'
+      className='bm-filer-cover'
+      onClick={onClick}
+      onKeyDown={onClick}
+    >
       <input
         ref={ref}
         id='hidden_input'
