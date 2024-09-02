@@ -4,8 +4,9 @@
  * @returns {string} The URL of the favicon.
  */
 export default function getFavicon(siteUrl) {
-  const url = new URL(chrome.runtime.getURL('/_favicon/'))
-  url.searchParams.set('pageUrl', siteUrl)
-  url.searchParams.set('size', '64')
-  return url.toString()
+  //const url = new URL(chrome.runtime.getURL('/_favicon/'))
+  //url.searchParams.set('pageUrl', siteUrl)
+  //url.searchParams.set('size', '64')
+  //return url.toString()
+  return `https://www.google.com/s2/favicons?domain=${siteUrl}`
 }

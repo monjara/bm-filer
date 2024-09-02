@@ -1,4 +1,3 @@
-import { shadowRoot } from '@/App'
 import { useRenameContext } from '@/providers/RenameProvider'
 import isTargetElement from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
@@ -39,9 +38,9 @@ export default function RenamePortal() {
           onSubmit(e)
         }
       }
-      shadowRoot.addEventListener('keydown', handler)
+      document.body.addEventListener('keydown', handler)
       return () => {
-        shadowRoot.removeEventListener('keydown', handler)
+        document.body.removeEventListener('keydown', handler)
       }
     }
   }, [isRename, onSubmit, cancel])

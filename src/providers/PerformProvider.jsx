@@ -1,4 +1,3 @@
-import { shadowRoot } from '@/App'
 import isTargetElement from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
 import { createContext, useCallback, useContext, useEffect } from 'react'
@@ -41,9 +40,9 @@ export default function PerformProvider({ children }) {
       }
     }
 
-    shadowRoot.addEventListener('keydown', handler)
+    document.body.addEventListener('keydown', handler)
     return () => {
-      shadowRoot.removeEventListener('keydown', handler)
+      document.body.removeEventListener('keydown', handler)
     }
   }, [toggle, item])
 

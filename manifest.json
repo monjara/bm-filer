@@ -11,7 +11,8 @@
   "web_accessible_resources": [
     {
       "resources": [
-        "_favicon/*"
+        "_favicon/*",
+        "index.html"
       ],
       "matches": [
         "<all_urls>"
@@ -27,7 +28,7 @@
         "<all_urls>"
       ],
       "js": [
-        "src/App.jsx"
+        "src/content_scripts/index.js"
       ]
     }
   ],

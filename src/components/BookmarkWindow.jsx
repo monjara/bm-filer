@@ -1,4 +1,3 @@
-import { shadowRoot } from '@/App'
 import { useItemsContext } from '@/providers/ItemsProvider'
 import { useToggleContext } from '@/providers/ToggleProvider'
 import { isRelatedTargetElement } from '@/utils/isTargetElement'
@@ -16,6 +15,7 @@ export default function BookmarkWindow() {
     if (ref.current) {
       const focusoutHandler = (e) => {
         if (!e?.sourceCapabilities && e.target === ref.current) {
+          console.log('ddd: ')
           if (isRelatedTargetElement(e, ['#title'])) {
             return
           }
@@ -29,21 +29,23 @@ export default function BookmarkWindow() {
           close()
         }
       }
-
-      shadowRoot.addEventListener('keydown', keyDownHandler, true)
-      shadowRoot.addEventListener('focusout', focusoutHandler, true)
+      document.body.addEventListener('keydown', keyDownHandler, true)
+      document.body.addEventListener('focusout', focusoutHandler, true)
       return () => {
-        shadowRoot.removeEventListener('keydown', keyDownHandler, true)
-        shadowRoot.removeEventListener('focusout', focusoutHandler, true)
+        document.body.removeEventListener('keydown', keyDownHandler, true)
+        document.body.removeEventListener('focusout', focusoutHandler, true)
       }
     }
   }, [close])
 
-  const onClick = useCallback((e) => {
-    if (e.target.id === 'bm-filer-cover') {
-      close()
-    }
-  }, [close])
+  const onClick = useCallback(
+    (e) => {
+      if (e.target.id === 'bm-filer-cover') {
+        close()
+      }
+    },
+    [close]
+  )
 
   return (
     <div
@@ -52,6 +54,7 @@ export default function BookmarkWindow() {
       onClick={onClick}
       onKeyDown={onClick}
     >
+      {/**
       <input
         ref={ref}
         id='hidden_input'
@@ -63,6 +66,7 @@ export default function BookmarkWindow() {
           ref.current.value = ''
         }}
       />
+      */}
       <div className='bm-filer-window'>
         <Root items={items} />
       </div>

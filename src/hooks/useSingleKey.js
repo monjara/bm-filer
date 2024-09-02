@@ -1,4 +1,3 @@
-import { shadowRoot } from '@/App'
 import { useEffect } from 'react'
 
 export default function useSingleKey(key, callback) {
@@ -8,9 +7,9 @@ export default function useSingleKey(key, callback) {
         callback(e)
       }
     }
-    shadowRoot.addEventListener('keydown', handler)
+    document.body.addEventListener('keydown', handler)
     return () => {
-      shadowRoot.removeEventListener('keydown', handler)
+      document.body.removeEventListener('keydown', handler)
     }
   })
 }

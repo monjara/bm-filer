@@ -1,4 +1,3 @@
-import { shadowRoot } from '@/App'
 import isTargetElement from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
 import {
@@ -21,7 +20,7 @@ export const useNavigateContext = () => useContext(navigateProvider)
 
 export default function NavigateProvider({ children }) {
   const { idAccessor, flatItemIds } = useItemsContext()
-  const [selectedId, setSelectedId] = useState(flatItemIds[0] || '')
+  const [selectedId, setSelectedId] = useState('1')
   const [openLedger, setOpenLedger] = useState({
     1: true,
   })
@@ -89,8 +88,6 @@ export default function NavigateProvider({ children }) {
   }, [selectedId, idAccessor, flatItemIds[0], findRightDir])
 
   useEffect(() => {
-    shadowRoot.getElementById('hidden_input')?.focus()
-
     const handler = (e) => {
       if (isTargetElement(e, ['#title'])) {
         return
@@ -105,14 +102,14 @@ export default function NavigateProvider({ children }) {
         e.stopPropagation()
       }
 
-      shadowRoot.getElementById(`d-${selectedId}`)?.scrollIntoView({
+      document.getElementById(`d-${selectedId}`)?.scrollIntoView({
         block: 'center',
       })
     }
 
-    shadowRoot.addEventListener('keydown', handler, true)
+    document.body.addEventListener('keydown', handler, true)
     return () => {
-      shadowRoot.removeEventListener('keydown', handler, true)
+      document.body.removeEventListener('keydown', handler, true)
     }
   }, [selectedId, down, up])
 
