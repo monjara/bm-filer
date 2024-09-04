@@ -13,7 +13,6 @@ export const useItemsContext = () => useContext(itemsContext)
 
 export default function ItemsProvider({ children }) {
   const [items, setItems] = useState([])
-  console.log('items: ', items)
   const flatItems = useMemo(() => flatTree(items), [items])
 
   const idAccessor = useMemo(() => {
