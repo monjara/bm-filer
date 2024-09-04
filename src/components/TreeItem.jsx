@@ -27,13 +27,14 @@ export default function TreeItem({ item, isOpen, depth }) {
           <span>{item.title}</span>
         </div>
       ) : (
-        <a
+        <div
           className={`link_row d-${depth} ${isSelected ? 'selected' : ''}`}
-          href={item.url}
+          onClick={() => window.open(item.url, '_blank')}
+          onKeyUp={() => {}}
         >
           <img src={getFavicon(item.url)} alt='' style={{ width: 16 }} />
           <span>{item.title}</span>
-        </a>
+        </div>
       )}
     </div>
   )

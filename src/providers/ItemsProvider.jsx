@@ -1,12 +1,10 @@
 import flatTree from '@/utils/flatTree'
 import { getBookmarks } from '@/utils/message'
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
-import { useToggleContext } from './ToggleProvider'
 
 const itemsContext = createContext({
   items: [],
   flatItems: [],
-  flatItemIds: [],
   idAccessor: {},
   reloadItems: () => {},
 })
@@ -14,13 +12,8 @@ const itemsContext = createContext({
 export const useItemsContext = () => useContext(itemsContext)
 
 export default function ItemsProvider({ children }) {
-  const { open } = useToggleContext()
   const [items, setItems] = useState([])
   const flatItems = useMemo(() => flatTree(items), [items])
-  const flatItemIds = useMemo(
-    () => flatItems.map((item) => item.id),
-    [flatItems]
-  )
 
   const idAccessor = useMemo(() => {
     const length = flatItems.length
@@ -43,12 +36,10 @@ export default function ItemsProvider({ children }) {
   }, [flatItems])
 
   useEffect(() => {
-    if (open) {
-      getBookmarks().then((result) => {
-        setItems(result.tree)
-      })
-    }
-  }, [open])
+    getBookmarks().then((result) => {
+      setItems(result.tree)
+    })
+  }, [])
 
   const reloadItems = (tree) => {
     setItems(tree)
@@ -59,7 +50,6 @@ export default function ItemsProvider({ children }) {
       value={{
         items,
         flatItems,
-        flatItemIds,
         idAccessor,
         reloadItems,
       }}
