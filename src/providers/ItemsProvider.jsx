@@ -5,7 +5,6 @@ import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 const itemsContext = createContext({
   items: [],
   flatItems: [],
-  flatItemIds: [],
   idAccessor: {},
   reloadItems: () => {},
 })
@@ -14,11 +13,8 @@ export const useItemsContext = () => useContext(itemsContext)
 
 export default function ItemsProvider({ children }) {
   const [items, setItems] = useState([])
+  console.log('items: ', items)
   const flatItems = useMemo(() => flatTree(items), [items])
-  const flatItemIds = useMemo(
-    () => flatItems.map((item) => item.id),
-    [flatItems]
-  )
 
   const idAccessor = useMemo(() => {
     const length = flatItems.length
@@ -55,7 +51,6 @@ export default function ItemsProvider({ children }) {
       value={{
         items,
         flatItems,
-        flatItemIds,
         idAccessor,
         reloadItems,
       }}
