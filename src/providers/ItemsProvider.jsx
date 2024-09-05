@@ -1,5 +1,5 @@
+import getBookmarks from '@/messages/getBookmarks'
 import flatTree from '@/utils/flatTree'
-import { getBookmarks } from '@/utils/message'
 import {
   createContext,
   useCallback,
