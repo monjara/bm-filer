@@ -41,8 +41,10 @@ export default function ItemsProvider({ children }) {
     })
   }, [])
 
-  const reloadItems = (tree) => {
-    setItems(tree)
+  const reloadItems = () => {
+    getBookmarks().then((result) => {
+      setItems(result.tree)
+    })
   }
 
   return (
