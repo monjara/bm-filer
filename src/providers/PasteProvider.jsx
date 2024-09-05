@@ -3,7 +3,7 @@ import isDir from '@/utils/isDir'
 import keys from '@/utils/keys'
 import { pasteBookmark } from '@/utils/message'
 import { createContext, useContext } from 'react'
-import { useItemsContext } from './ItemsProvider'
+import { useItemsContext, useReloadItemsContext } from './ItemsProvider'
 import { useNavigateContext } from './NavigateProvider'
 
 const pasteContext = createContext({})
@@ -11,7 +11,8 @@ const pasteContext = createContext({})
 export const usePasteContext = () => useContext(pasteContext)
 
 export default function PasteProvider({ children }) {
-  const { flatItems, reloadItems } = useItemsContext()
+  const { flatItems } = useItemsContext()
+  const { reloadItems } = useReloadItemsContext()
   const { selectedId, openLedger } = useNavigateContext()
 
   useSingleKey(keys.PASTE, (_event) => {
