@@ -2,7 +2,6 @@ import { useRenameContext } from '@/providers/RenameProvider'
 import isTargetElement from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
 import { useCallback, useEffect, useRef } from 'react'
-import styles from './RenamePortal.module.css'
 
 export default function RenamePortal() {
   const { isRename, oldTitle, update, cancel } = useRenameContext()
@@ -51,12 +50,12 @@ export default function RenamePortal() {
   }
 
   return (
-    <div className={styles.container}>
+    <div className='rename_container'>
       <h4>名前の編集</h4>
-      <div className={styles.input_row}>
+      <div className='rename_input_row'>
         <label htmlFor='title'>名前</label>
         <input
-          className={styles.input}
+          className='rename_input'
           ref={inputRef}
           defaultValue={oldTitle}
           name='title'
@@ -65,12 +64,12 @@ export default function RenamePortal() {
           type='text'
         />
       </div>
-      <div className={styles.button_row}>
-        <button className={styles.button_cancel} type='button' onClick={cancel}>
+      <div className='rename_button_row'>
+        <button className='rename_button_cancel' type='button' onClick={cancel}>
           キャンセル
         </button>
         <button
-          className={styles.button_submit}
+          className='rename_button_submit'
           type='button'
           onClick={onSubmit}
         >

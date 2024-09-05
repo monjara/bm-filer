@@ -1,10 +1,9 @@
-import styles from './ListContainer.module.css'
 import Tree from './Tree'
 import TreeItem from './TreeItem'
 
 export default function ListContainer({ items }) {
   return (
-    <div className={styles.container}>
+    <div className='list_container'>
       {items.map((item) => (
         <Tree key={item.id} item={item} markup={TreeItem} />
       ))}

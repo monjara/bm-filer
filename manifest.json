@@ -6,7 +6,7 @@
   "permissions": ["bookmarks", "favicon", "storage"],
   "web_accessible_resources": [
     {
-      "resources": ["_favicon/*", "index.html"],
+      "resources": ["_favicon/*", "index.html", "index.css"],
       "matches": ["<all_urls>"],
       "extension_ids": ["*"]
     }
