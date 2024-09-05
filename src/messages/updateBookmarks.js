@@ -5,5 +5,5 @@ export default async function updateBookmark(id, title) {
       id,
       title,
     })
-    .then(returnResult)
+    .then((res) => res)
 }
