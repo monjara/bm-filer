@@ -4,6 +4,7 @@ import { useNavigateContext } from '@/providers/NavigateProvider'
 import { usePerformContext } from '@/providers/PerformProvider'
 import getFavicon from '@/utils/getFavicon'
 import isDir from '@/utils/isDir'
+import styles from './TreeItem.module.css'
 
 export default function TreeItem({ item, isOpen, depth }) {
   const { toggle } = usePerformContext()
@@ -12,14 +13,13 @@ export default function TreeItem({ item, isOpen, depth }) {
 
   return (
     <div
-      id={`d-${item.id}`}
       style={{
         paddingLeft: `${depth * 2}px`,
       }}
     >
       {isDir(item) ? (
         <div
-          className={`folder_row ${isSelected ? 'selected' : ''}`}
+          className={`${styles.folder} ${isSelected && styles.selected}`}
           onClick={() => toggle(item.id)}
           onKeyUp={() => {}}
         >
@@ -28,7 +28,7 @@ export default function TreeItem({ item, isOpen, depth }) {
         </div>
       ) : (
         <div
-          className={`link_row d-${depth} ${isSelected ? 'selected' : ''}`}
+          className={`${styles.link} ${isSelected && styles.selected}`}
           onClick={() => window.open(item.url, '_blank')}
           onKeyUp={() => {}}
         >

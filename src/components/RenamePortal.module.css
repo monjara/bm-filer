@@ -1,0 +1,54 @@
+.container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 1rem;
+  background-color: white;
+  border: 1px solid black;
+  z-index: 99999999999999;
+  color: black;
+  border-radius: 12px;
+}
+
+.input_row {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.input {
+  background-color: white;
+  color: black;
+  padding: 0.5rem;
+  border-radius: 12px;
+  border: 1px solid black;
+  width: 15rem;
+}
+
+.button_row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.button_cancel {
+  padding: 4px 8px;
+  border-radius: 12px;
+  border: 1px solid gray;
+  color: gray;
+  background: white;
+  width: 6rem;
+}
+
+.button_submit {
+  padding: 4px 8px;
+  border-radius: 12px;
+  border: 1px solid #1976d2;
+  color: white;
+  background: #1976d2;
+  width: 6rem;
+}
+

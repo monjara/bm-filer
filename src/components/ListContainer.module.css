@@ -1,0 +1,9 @@
+.container {
+  width: 100%;
+  background: #fff;
+  overflow: auto;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+
