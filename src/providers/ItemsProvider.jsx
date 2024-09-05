@@ -1,15 +1,25 @@
 import flatTree from '@/utils/flatTree'
 import { getBookmarks } from '@/utils/message'
-import { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 
 const itemsContext = createContext({
   items: [],
   flatItems: [],
   idAccessor: {},
+})
+const reloadItemsContext = createContext({
   reloadItems: () => {},
 })
 
 export const useItemsContext = () => useContext(itemsContext)
+export const useReloadItemsContext = () => useContext(reloadItemsContext)
 
 export default function ItemsProvider({ children }) {
   const [items, setItems] = useState([])
@@ -41,9 +51,11 @@ export default function ItemsProvider({ children }) {
     })
   }, [])
 
-  const reloadItems = (tree) => {
-    setItems(tree)
-  }
+  const reloadItems = useCallback(() => {
+    getBookmarks().then((result) => {
+      setItems(result.tree)
+    })
+  }, [])
 
   return (
     <itemsContext.Provider
@@ -51,10 +63,15 @@ export default function ItemsProvider({ children }) {
         items,
         flatItems,
         idAccessor,
-        reloadItems,
       }}
     >
-      {children}
+      <reloadItemsContext.Provider
+        value={{
+          reloadItems,
+        }}
+      >
+        {children}
+      </reloadItemsContext.Provider>
     </itemsContext.Provider>
   )
 }

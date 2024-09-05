@@ -1,33 +1,18 @@
 import { useItemsContext } from '@/providers/ItemsProvider'
-import { useToggleContext } from '@/providers/ToggleProvider'
-import { useCallback } from 'react'
+import ListContainer from './ListContainer'
 import RenamePortal from './RenamePortal'
-import Root from './Root'
 
 export default function BookmarkWindow() {
-  const { close } = useToggleContext()
   const { items } = useItemsContext()
 
-  const onClick = useCallback(
-    (e) => {
-      if (e.target.id === 'bm-filer-cover') {
-        close()
-      }
-    },
-    [close]
-  )
-
   return (
-    <div
-      id='bm-filer-cover'
-      className='bm-filer-cover'
-      onClick={onClick}
-      onKeyDown={onClick}
-    >
-      <div className='bm-filer-window'>
-        <Root items={items} />
+    <>
+      <div id='bm-filer-cover' className='cover'>
+        <div className='modal'>
+          <ListContainer items={items} />
+        </div>
+        <RenamePortal />
       </div>
-      <RenamePortal />
-    </div>
+    </>
   )
 }

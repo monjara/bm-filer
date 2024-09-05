@@ -2,18 +2,17 @@ import useRepeatKeys from '@/hooks/useRepeatKeys'
 import useSingleKey from '@/hooks/useSingleKey'
 import isDir from '@/utils/isDir'
 import keys from '@/utils/keys'
-import { getBookmarks, removeBookmark } from '@/utils/message'
-import { createContext, useContext } from 'react'
-import { useItemsContext } from './ItemsProvider'
+import { removeBookmark } from '@/utils/message'
+import { createContext } from 'react'
+import { useItemsContext, useReloadItemsContext } from './ItemsProvider'
 import { useNavigateContext } from './NavigateProvider'
 import { useRenameContext } from './RenameProvider'
 
 const cutContext = createContext({})
 
-export const useCutContext = () => useContext(cutContext)
-
 export default function CutProvider({ children }) {
-  const { flatItems, idAccessor, reloadItems } = useItemsContext()
+  const { flatItems, idAccessor } = useItemsContext()
+  const { reloadItems } = useReloadItemsContext()
   const { selectedId, updateSelectedId } = useNavigateContext()
   const { isRename } = useRenameContext()
 
@@ -37,9 +36,7 @@ export default function CutProvider({ children }) {
     updateSelectedId(right)
 
     await removeBookmark(id)
-    getBookmarks().then((result) => {
-      reloadItems(result.tree)
-    })
+    reloadItems()
   }
 
   return <cutContext.Provider value={{}}>{children}</cutContext.Provider>

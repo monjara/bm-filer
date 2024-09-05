@@ -1,7 +1,7 @@
-import { useNavigateContext } from '@/providers/NavigateProvider'
+import { useOpenContext } from '@/providers/OpenProvider'
 
 export default function Tree({ markup, item, depth = 1 }) {
-  const { openLedger } = useNavigateContext()
+  const { openLedger } = useOpenContext()
   const isOpen = openLedger?.[item.id]
 
   return (

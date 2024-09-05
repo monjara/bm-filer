@@ -9,7 +9,7 @@ window.addEventListener('message', (response) => {
 })
 
 const [root, shadowRoot] = createRoot('bm-filer-root')
-const iframe = creaeteIframe('bm-filer-iframe')
+const iframe = createIframe('bm-filer-iframe')
 shadowRoot.appendChild(iframe)
 
 function iFrameHandler() {
@@ -65,7 +65,7 @@ function createRoot(rootId) {
   return [root, shadowRoot]
 }
 
-function creaeteIframe(id) {
+function createIframe(id) {
   const iframe = document.createElement('iframe')
   iframe.id = id
   iframe.src = chrome.runtime.getURL('../../index.html')

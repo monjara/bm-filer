@@ -1,9 +1,9 @@
 import useSingleKey from '@/hooks/useSingleKey'
 import isTargetElement from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
-import { getBookmarks, updateBookmark } from '@/utils/message'
+import { updateBookmark } from '@/utils/message'
 import { createContext, useContext, useRef, useState } from 'react'
-import { useItemsContext } from './ItemsProvider'
+import { useItemsContext, useReloadItemsContext } from './ItemsProvider'
 import { useNavigateContext } from './NavigateProvider'
 
 const renameProvider = createContext({
@@ -16,7 +16,8 @@ const renameProvider = createContext({
 export const useRenameContext = () => useContext(renameProvider)
 
 export default function RenameProvider({ children }) {
-  const { flatItems, reloadItems } = useItemsContext()
+  const { flatItems } = useItemsContext()
+  const { reloadItems } = useReloadItemsContext()
   const { selectedId } = useNavigateContext()
   const [isRename, setIsRename] = useState(false)
   const oldTitle = useRef('')
@@ -35,9 +36,7 @@ export default function RenameProvider({ children }) {
 
   const update = async (newTitle) => {
     await updateBookmark(selectedId, newTitle)
-    getBookmarks().then((result) => {
-      reloadItems(result.tree)
-    })
+    reloadItems()
   }
 
   const cancel = () => {

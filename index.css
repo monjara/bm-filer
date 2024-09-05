@@ -1,8 +1,4 @@
-html, body {
-  background-color: transparent;
-}
-
-.bm-filer-cover {
+.cover {
   position: fixed;
   top: 0;
   left: 0;
@@ -12,7 +8,7 @@ html, body {
   z-index: 999999;
 }
 
-.bm-filer-window {
+.modal {
   display: flex;
   position: fixed;
   top: 0;
@@ -29,7 +25,7 @@ html, body {
   z-index: 999999;
 }
 
-.bm-filer-list-container {
+.list_container {
   width: 100%;
   background: #fff;
   overflow: auto;
@@ -37,11 +33,11 @@ html, body {
   border-radius: 10px;
 }
 
-.selected, .link_row:hover, .folder_row:hover {
+.selected, .link:hover, .folder:hover {
   background: #f0f0f0;
 }
 
-.folder_row {
+.folder {
   border-bottom: 1px solid #ccc;
   cursor: pointer;
   display: flex;
@@ -53,7 +49,7 @@ html, body {
   font-size: 14px;
 }
 
-.link_row {
+.link {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -120,3 +116,4 @@ html, body {
   background: #1976d2;
   width: 6rem;
 }
+

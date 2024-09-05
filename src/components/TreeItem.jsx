@@ -19,7 +19,7 @@ export default function TreeItem({ item, isOpen, depth }) {
     >
       {isDir(item) ? (
         <div
-          className={`folder_row ${isSelected ? 'selected' : ''}`}
+          className={`folder ${isSelected && 'selected'}`}
           onClick={() => toggle(item.id)}
           onKeyUp={() => {}}
         >
@@ -28,7 +28,7 @@ export default function TreeItem({ item, isOpen, depth }) {
         </div>
       ) : (
         <div
-          className={`link_row d-${depth} ${isSelected ? 'selected' : ''}`}
+          className={`link ${isSelected && 'selected'}`}
           onClick={() => window.open(item.url, '_blank')}
           onKeyUp={() => {}}
         >

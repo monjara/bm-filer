@@ -3,6 +3,7 @@ import keys from '@/utils/keys'
 import { createContext, useCallback, useContext, useEffect } from 'react'
 import { useItemsContext } from './ItemsProvider'
 import { useNavigateContext } from './NavigateProvider'
+import { useRecordOpenContext } from './OpenProvider'
 
 const performContext = createContext({
   toggle: () => {},
@@ -12,8 +13,8 @@ export const usePerformContext = () => useContext(performContext)
 
 export default function PerformProvider({ children }) {
   const { idAccessor } = useItemsContext()
-  const { selectedId, updateSelectedId, recordFolderOpen } =
-    useNavigateContext()
+  const { selectedId, updateSelectedId } = useNavigateContext()
+  const { recordFolderOpen } = useRecordOpenContext()
   const item = idAccessor[selectedId]
 
   const toggle = useCallback(

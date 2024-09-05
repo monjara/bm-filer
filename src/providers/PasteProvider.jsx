@@ -1,18 +1,19 @@
 import useSingleKey from '@/hooks/useSingleKey'
 import isDir from '@/utils/isDir'
 import keys from '@/utils/keys'
-import { getBookmarks, pasteBookmark } from '@/utils/message'
-import { createContext, useContext } from 'react'
-import { useItemsContext } from './ItemsProvider'
+import { pasteBookmark } from '@/utils/message'
+import { createContext } from 'react'
+import { useItemsContext, useReloadItemsContext } from './ItemsProvider'
 import { useNavigateContext } from './NavigateProvider'
+import { useOpenContext } from './OpenProvider'
 
 const pasteContext = createContext({})
 
-export const usePasteContext = () => useContext(pasteContext)
-
 export default function PasteProvider({ children }) {
-  const { flatItems, reloadItems } = useItemsContext()
-  const { selectedId, openLedger } = useNavigateContext()
+  const { flatItems } = useItemsContext()
+  const { reloadItems } = useReloadItemsContext()
+  const { selectedId } = useNavigateContext()
+  const { openLedger } = useOpenContext()
 
   useSingleKey(keys.PASTE, (_event) => {
     paste()
@@ -26,9 +27,7 @@ export default function PasteProvider({ children }) {
       : { index: current.index + 1, parentId: current.parentId }
 
     await pasteBookmark(dist)
-    getBookmarks().then((result) => {
-      reloadItems(result.tree)
-    })
+    reloadItems()
   }
 
   return <pasteContext.Provider value={{}}>{children}</pasteContext.Provider>
