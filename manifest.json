@@ -1,35 +1,20 @@
 {
   "manifest_version": 3,
   "name": "bookmark filer",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "bookmark filer like vim keybindings",
-  "permissions": [
-    "bookmarks",
-    "favicon",
-    "storage"
-  ],
+  "permissions": ["bookmarks", "favicon", "storage"],
   "web_accessible_resources": [
     {
-      "resources": [
-        "_favicon/*",
-        "index.html"
-      ],
-      "matches": [
-        "<all_urls>"
-      ],
-      "extension_ids": [
-        "*"
-      ]
+      "resources": ["_favicon/*", "index.html"],
+      "matches": ["<all_urls>"],
+      "extension_ids": ["*"]
     }
   ],
   "content_scripts": [
     {
-      "matches": [
-        "<all_urls>"
-      ],
-      "js": [
-        "src/content_scripts/index.js"
-      ]
+      "matches": ["<all_urls>"],
+      "js": ["src/content_scripts/index.js", "src/main.jsx"]
     }
   ],
   "background": {
