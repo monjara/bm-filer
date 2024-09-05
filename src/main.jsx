@@ -5,7 +5,7 @@ import ItemsProvider from './providers/ItemsProvider'
 import KeymapProvider from './providers/KeymapProvider'
 import ToggleProvider from './providers/ToggleProvider'
 
-const root = document.getElementById('root')
+const root = document.getElementById('bm-filer-iframe-root')
 if (root) {
   createRoot(root).render(
     <StrictMode>
