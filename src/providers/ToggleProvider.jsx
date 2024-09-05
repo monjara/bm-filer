@@ -1,12 +1,8 @@
 import { isInputTarget } from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
-import { createContext, useContext, useEffect } from 'react'
+import { createContext, useEffect } from 'react'
 
-const toggleContext = createContext({
-  close: () => {},
-})
-
-export const useToggleContext = () => useContext(toggleContext)
+const toggleContext = createContext({})
 
 export default function ToggleProvider({ children }) {
   useEffect(() => {
@@ -37,13 +33,5 @@ export default function ToggleProvider({ children }) {
     window.parent.postMessage({ type: 'bm_close' }, '*')
   }
 
-  return (
-    <toggleContext.Provider
-      value={{
-        close,
-      }}
-    >
-      {children}
-    </toggleContext.Provider>
-  )
+  return <toggleContext.Provider value={{}}>{children}</toggleContext.Provider>
 }

@@ -13,6 +13,7 @@ export default function TreeItem({ item, isOpen, depth }) {
 
   return (
     <div
+      id={`d-${item.id}`}
       style={{
         paddingLeft: `${depth * 2}px`,
       }}

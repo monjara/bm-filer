@@ -3,14 +3,12 @@ import useSingleKey from '@/hooks/useSingleKey'
 import isDir from '@/utils/isDir'
 import keys from '@/utils/keys'
 import { removeBookmark } from '@/utils/message'
-import { createContext, useContext } from 'react'
+import { createContext } from 'react'
 import { useItemsContext, useReloadItemsContext } from './ItemsProvider'
 import { useNavigateContext } from './NavigateProvider'
 import { useRenameContext } from './RenameProvider'
 
 const cutContext = createContext({})
-
-export const useCutContext = () => useContext(cutContext)
 
 export default function CutProvider({ children }) {
   const { flatItems, idAccessor } = useItemsContext()

@@ -2,14 +2,12 @@ import useSingleKey from '@/hooks/useSingleKey'
 import isDir from '@/utils/isDir'
 import keys from '@/utils/keys'
 import { pasteBookmark } from '@/utils/message'
-import { createContext, useContext } from 'react'
+import { createContext } from 'react'
 import { useItemsContext, useReloadItemsContext } from './ItemsProvider'
 import { useNavigateContext } from './NavigateProvider'
 import { useOpenContext } from './OpenProvider'
 
 const pasteContext = createContext({})
-
-export const usePasteContext = () => useContext(pasteContext)
 
 export default function PasteProvider({ children }) {
   const { flatItems } = useItemsContext()
