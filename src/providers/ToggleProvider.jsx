@@ -10,7 +10,7 @@ export const useToggleContext = () => useContext(toggleContext)
 
 export default function ToggleProvider({ children }) {
   useEffect(() => {
-    const handler = (e) => {
+    const keydownHandler = (e) => {
       if (isInputTarget(e)) {
         return
       }
@@ -19,10 +19,17 @@ export default function ToggleProvider({ children }) {
         close()
       }
     }
+    const clickHandler = (e) => {
+      if (e.target.id === 'bm-filer-cover') {
+        close()
+      }
+    }
 
-    window.addEventListener('keydown', handler)
+    window.addEventListener('keydown', keydownHandler)
+    window.addEventListener('click', clickHandler)
     return () => {
-      window.removeEventListener('keydown', handler)
+      window.removeEventListener('keydown', keydownHandler)
+      window.removeEventListener('click', clickHandler)
     }
   }, [])
 

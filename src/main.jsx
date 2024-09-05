@@ -1,7 +1,8 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import WindowPortal from './components/WindowPortal'
+import BookmarkWindow from './components/BookmarkWindow'
 import ItemsProvider from './providers/ItemsProvider'
+import KeymapProvider from './providers/KeymapProvider'
 import ToggleProvider from './providers/ToggleProvider'
 
 const root = document.getElementById('root')
@@ -10,7 +11,9 @@ if (root) {
     <StrictMode>
       <ToggleProvider>
         <ItemsProvider>
-          <WindowPortal />
+          <KeymapProvider>
+            <BookmarkWindow />
+          </KeymapProvider>
         </ItemsProvider>
       </ToggleProvider>
     </StrictMode>
