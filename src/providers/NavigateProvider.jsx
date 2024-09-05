@@ -8,11 +8,10 @@ import {
   useState,
 } from 'react'
 import { useItemsContext } from './ItemsProvider'
+import { useOpenContext } from './OpenProvider'
 
 const navigateProvider = createContext({
   selectedId: '',
-  openLedger: {},
-  recordFolderOpen: () => {},
   updateSelectedId: () => {},
 })
 
@@ -20,17 +19,8 @@ export const useNavigateContext = () => useContext(navigateProvider)
 
 export default function NavigateProvider({ children }) {
   const { idAccessor } = useItemsContext()
+  const { openLedger } = useOpenContext()
   const [selectedId, setSelectedId] = useState('1')
-  const [openLedger, setOpenLedger] = useState({
-    1: true,
-  })
-
-  const recordFolderOpen = (id) => {
-    setOpenLedger((old) => ({
-      ...old,
-      [id]: !openLedger[id],
-    }))
-  }
 
   const updateSelectedId = (id) => {
     setSelectedId(id)
@@ -117,8 +107,6 @@ export default function NavigateProvider({ children }) {
     <navigateProvider.Provider
       value={{
         selectedId,
-        openLedger,
-        recordFolderOpen,
         updateSelectedId,
       }}
     >

@@ -5,6 +5,7 @@ import { pasteBookmark } from '@/utils/message'
 import { createContext, useContext } from 'react'
 import { useItemsContext, useReloadItemsContext } from './ItemsProvider'
 import { useNavigateContext } from './NavigateProvider'
+import { useOpenContext } from './OpenProvider'
 
 const pasteContext = createContext({})
 
@@ -13,7 +14,8 @@ export const usePasteContext = () => useContext(pasteContext)
 export default function PasteProvider({ children }) {
   const { flatItems } = useItemsContext()
   const { reloadItems } = useReloadItemsContext()
-  const { selectedId, openLedger } = useNavigateContext()
+  const { selectedId } = useNavigateContext()
+  const { openLedger } = useOpenContext()
 
   useSingleKey(keys.PASTE, (_event) => {
     paste()

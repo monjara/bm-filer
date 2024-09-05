@@ -1,6 +1,13 @@
 import flatTree from '@/utils/flatTree'
 import { getBookmarks } from '@/utils/message'
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 
 const itemsContext = createContext({
   items: [],
