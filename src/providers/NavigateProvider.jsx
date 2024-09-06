@@ -26,9 +26,9 @@ export default function NavigateProvider({ children }) {
     setSelectedId(id)
   }
 
-  const findLeftDir = useCallback(
+  const findAbove = useCallback(
     (id) => {
-      const parentId = idAccessor[id].parentDir
+      const parentId = idAccessor[id].parentId
       if (parentId === '0') {
         return id
       }
@@ -38,44 +38,90 @@ export default function NavigateProvider({ children }) {
         return id
       }
 
-      return findLeftDir(parentId)
+      return findAbove(parentId)
     },
     [idAccessor, openLedger]
   )
 
-  const findRightDir = useCallback(
-    (id, origin) => {
-      const parentId = idAccessor[id].parentDir
-      if (parentId === '0') {
-        return id
-      }
-
-      const isParentOpen = openLedger?.[parentId] ?? false
-      if (isParentOpen) {
-        if (id !== origin) {
-          return id
+  const findParentBelow = useCallback(
+    (id) => {
+      const stack = [id]
+      let parent
+      while (stack.length) {
+        const current = stack.pop()
+        if (current === '1') {
+          return '2'
+        }
+        if (current === '2') {
+          return '1'
+        }
+        parent = idAccessor[idAccessor[current].parentId]
+        if (parent.isLast) {
+          stack.push(parent.id)
         }
       }
-
-      const right = idAccessor[id].right
-      return findRightDir(right, origin)
+      return parent.right
     },
-    [idAccessor, openLedger]
+    [idAccessor]
+  )
+
+  const findBelow = useCallback(
+    (currentId) => {
+      const stack = [currentId]
+      let id
+      while (stack.length) {
+        const currentId = stack.pop()
+        const currentItem = idAccessor[currentId]
+        const isOpen = openLedger?.[currentId] ?? false
+        const isLink = !!currentItem?.url
+
+        // linkの場合
+        //   最後の要素の場合、親ノードの下隣を取得
+        //   それ以外の場合、下隣の要素を取得
+        // directoryの場合
+        //   開いている場合
+        //     directoryが持つchildrenの最初の要素を取得
+        //     childrenが空の場合、下隣の要素を取得
+        //   閉じている場合
+        //     最後の要素の場合、親ノードの下隣を取得
+        //     それ以外の場合、下隣の要素を取得
+        id = isLink
+          ? currentItem.isLast
+            ? findParentBelow(currentId)
+            : currentItem.right
+          : isOpen
+            ? currentItem.below ?? currentItem.right
+            : currentItem.isLast
+              ? findParentBelow(currentId)
+              : currentItem.right
+
+        const parentId = idAccessor[id].parentId
+        const isParentOpen = openLedger?.[parentId] ?? false
+        if (parentId === '0') {
+          return id
+        }
+        if (isParentOpen) {
+          return id
+        }
+        stack.push(idAccessor[id].right)
+      }
+      return id
+    },
+    [idAccessor, openLedger, findParentBelow]
   )
 
   const up = useCallback(() => {
     const currentId = selectedId === '' ? '1' : selectedId
     const left = idAccessor[currentId].left
-    const id = findLeftDir(left)
+    const id = findAbove(left)
     setSelectedId(id)
-  }, [selectedId, idAccessor, findLeftDir])
+  }, [selectedId, idAccessor, findAbove])
 
   const down = useCallback(() => {
     const currentId = selectedId === '' ? '1' : selectedId
-    const right = idAccessor[currentId].right
-    const id = findRightDir(right, currentId)
+    const id = findBelow(currentId)
     setSelectedId(id)
-  }, [selectedId, idAccessor, findRightDir])
+  }, [selectedId, findBelow])
 
   useEffect(() => {
     const handler = (e) => {
