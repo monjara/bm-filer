@@ -164,6 +164,7 @@ export default function NavigateProvider({ children }) {
       }
 
       document.getElementById(`d-${selectedId}`)?.scrollIntoView({
+        behavior: 'smooth',
         block: 'center',
       })
     }
