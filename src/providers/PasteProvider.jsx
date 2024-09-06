@@ -1,7 +1,7 @@
 import useSingleKey from '@/hooks/useSingleKey'
+import pasteBookmark from '@/messages/pasteBookmark'
 import isDir from '@/utils/isDir'
 import keys from '@/utils/keys'
-import { pasteBookmark } from '@/utils/message'
 import { createContext } from 'react'
 import { useItemsContext, useReloadItemsContext } from './ItemsProvider'
 import { useNavigateContext } from './NavigateProvider'
@@ -15,7 +15,7 @@ export default function PasteProvider({ children }) {
   const { selectedId } = useNavigateContext()
   const { openLedger } = useOpenContext()
 
-  useSingleKey(keys.PASTE, (_event) => {
+  useSingleKey(keys.PASTE, () => {
     paste()
   })
 

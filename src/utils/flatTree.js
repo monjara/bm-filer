@@ -1,25 +1,17 @@
-import isDir from '@/utils/isDir'
-
 /**
- * Flattens a tree structure
- * @param {Array} items: The tree structure to flatten
- * @returns {Array} The flattened tree structure
+ * BFS
  */
 export default function flatTree(items) {
-  let result = []
+  const result = []
+  const queue = [...items]
 
-  if (Array.isArray(items)) {
-    for (const item of items) {
-      result = result.concat(flatTree(item))
+  while (queue.length) {
+    const node = queue.shift()
+    if (node?.children) {
+      queue.push(...node.children)
     }
-    return result
-  }
 
-  result.push(items)
-  if (isDir(items)) {
-    for (const child of items.children) {
-      result = result.concat(flatTree(child))
-    }
+    result.push(node)
   }
 
   return result

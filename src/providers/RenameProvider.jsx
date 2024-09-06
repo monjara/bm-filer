@@ -1,7 +1,7 @@
 import useSingleKey from '@/hooks/useSingleKey'
+import updateBookmark from '@/messages/updateBookmarks'
 import isTargetElement from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
-import { updateBookmark } from '@/utils/message'
 import { createContext, useContext, useRef, useState } from 'react'
 import { useItemsContext, useReloadItemsContext } from './ItemsProvider'
 import { useNavigateContext } from './NavigateProvider'

@@ -1,5 +1,5 @@
+import getBookmarks from '@/messages/getBookmarks'
 import flatTree from '@/utils/flatTree'
-import { getBookmarks } from '@/utils/message'
 import {
   createContext,
   useCallback,
@@ -38,9 +38,12 @@ export default function ItemsProvider({ children }) {
       acc[item.id].url = item?.url
       acc[item.id].prevDir = item.prevDir
       acc[item.id].nextDir = item.nextDir
-      acc[item.id].parentDir = item.parentId
-      acc[item.id].left = flatItems[prevIndex].id
-      acc[item.id].right = flatItems[nextIndex].id
+      acc[item.id].left = flatItems[prevIndex]?.id
+      acc[item.id].right = flatItems[nextIndex]?.id
+      acc[item.id].below = item?.children?.[0]?.id
+      acc[item.id].parentId = item.parentId
+      acc[item.id].isFirst = item.index === 0
+      acc[item.id].isLast = flatItems[nextIndex]?.index === 0
       return acc
     }, {})
   }, [flatItems])

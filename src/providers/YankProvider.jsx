@@ -1,6 +1,6 @@
 import useRepeatKeys from '@/hooks/useRepeatKeys'
+import copyBookmark from '@/messages/copyBookmark'
 import keys from '@/utils/keys'
-import { copyBookmark } from '@/utils/message'
 import { createContext, useCallback } from 'react'
 import { useNavigateContext } from './NavigateProvider'
 
