@@ -18,7 +18,7 @@ const navigateProvider = createContext({
 export const useNavigateContext = () => useContext(navigateProvider)
 
 export default function NavigateProvider({ children }) {
-  const { idAccessor } = useItemsContext()
+  const { idAccessor, flatItems } = useItemsContext()
   const { openLedger } = useOpenContext()
   const [selectedId, setSelectedId] = useState('1')
 
@@ -26,21 +26,47 @@ export default function NavigateProvider({ children }) {
     setSelectedId(id)
   }
 
-  const findAbove = useCallback(
+  const findChildBelow = useCallback(
     (id) => {
-      const parentId = idAccessor[id].parentId
-      if (parentId === '0') {
-        return id
-      }
+      const stack = [id]
+      while (stack.length) {
+        const id = stack.pop()
 
-      const isParentOpen = openLedger?.[parentId] ?? false
-      if (isParentOpen) {
-        return id
+        const isLink = !!idAccessor[id]?.url
+        if (isLink) {
+          return id
+        }
+        const isOpen = openLedger?.[id] ?? false
+        if (!isOpen) {
+          return id
+        }
+        const childLast = flatItems.find(
+          (item) => item.parentId === id && idAccessor[item.id].isLast
+        )
+        if (!childLast) {
+          return id
+        }
+        stack.push(childLast.id)
       }
-
-      return findAbove(parentId)
+      return id
     },
-    [idAccessor, openLedger]
+    [openLedger, flatItems, idAccessor]
+  )
+
+  const findAbove = useCallback(
+    (currentId) => {
+      const current = idAccessor[currentId]
+      const isFirst = current.isFirst
+      const prevIsDir = !idAccessor[current.prevDir]?.url
+      return isFirst
+        ? current.id === '1'
+          ? findChildBelow('2')
+          : current.parentId
+        : prevIsDir
+          ? findChildBelow(current.left)
+          : current.left
+    },
+    [idAccessor, findChildBelow]
   )
 
   const findParentBelow = useCallback(
@@ -112,10 +138,9 @@ export default function NavigateProvider({ children }) {
 
   const up = useCallback(() => {
     const currentId = selectedId === '' ? '1' : selectedId
-    const left = idAccessor[currentId].left
-    const id = findAbove(left)
+    const id = findAbove(currentId)
     setSelectedId(id)
-  }, [selectedId, idAccessor, findAbove])
+  }, [selectedId, findAbove])
 
   const down = useCallback(() => {
     const currentId = selectedId === '' ? '1' : selectedId

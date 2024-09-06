@@ -30,7 +30,6 @@ export default function ItemsProvider({ children }) {
     return flatItems.reduce((acc, item, index) => {
       const prevIndex = index > 0 ? index - 1 : length - 1
       const nextIndex = index < length - 1 ? index + 1 : 0
-      const isLast = flatItems[nextIndex]?.index === 0
 
       if (!acc[item.id]) {
         acc[item.id] = {}
@@ -44,7 +43,7 @@ export default function ItemsProvider({ children }) {
       acc[item.id].below = item?.children?.[0]?.id
       acc[item.id].parentId = item.parentId
       acc[item.id].isFirst = item.index === 0
-      acc[item.id].isLast = isLast
+      acc[item.id].isLast = flatItems[nextIndex]?.index === 0
       return acc
     }, {})
   }, [flatItems])
