@@ -15,7 +15,7 @@ export default function PasteProvider({ children }) {
   const { selectedId } = useNavigateContext()
   const { openLedger } = useOpenContext()
 
-  useSingleKey(keys.PASTE, (_event) => {
+  useSingleKey(keys.PASTE, () => {
     paste()
   })
 

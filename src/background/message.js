@@ -24,8 +24,8 @@ export function message(req, _, res) {
       break
     case 'paste_bookmark':
       createBookmark({
-        index: req.distIndex,
-        parentId: req.distParentId,
+        index: req.index,
+        parentId: req.parentId,
         fromRegister: true,
       }).then(() => {
         res({ result: 'success' })
