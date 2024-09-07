@@ -1,0 +1,14 @@
+{
+  "rename_title": {
+    "message": "Rename Title"
+  },
+  "title": {
+    "message": "Title"
+  },
+  "cancel": {
+    "message": "Cancel"
+  },
+  "save": {
+    "message": "Save"
+  }
+}

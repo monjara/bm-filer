@@ -3,6 +3,7 @@
   "name": "bookmark filer",
   "version": "0.1.7",
   "description": "bookmark filer like vim keybindings",
+  "default_locale": "en",
   "permissions": ["bookmarks", "favicon", "storage"],
   "web_accessible_resources": [
     {

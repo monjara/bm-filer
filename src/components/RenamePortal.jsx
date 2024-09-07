@@ -1,6 +1,7 @@
 import { useRenameContext } from '@/providers/RenameProvider'
 import isTargetElement from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
+import locale from '@/utils/locale'
 import { useCallback, useEffect, useRef } from 'react'
 
 export default function RenamePortal() {
@@ -51,9 +52,9 @@ export default function RenamePortal() {
 
   return (
     <div className='rename_container'>
-      <h4>名前の編集</h4>
+      <h4>{locale('rename_title')}</h4>
       <div className='rename_input_row'>
-        <label htmlFor='title'>名前</label>
+        <label htmlFor='title'>{locale('title')}</label>
         <input
           className='rename_input'
           ref={inputRef}
@@ -66,14 +67,14 @@ export default function RenamePortal() {
       </div>
       <div className='rename_button_row'>
         <button className='rename_button_cancel' type='button' onClick={cancel}>
-          キャンセル
+          {locale('cancel')}
         </button>
         <button
           className='rename_button_submit'
           type='button'
           onClick={onSubmit}
         >
-          保存
+          {locale('save')}
         </button>
       </div>
     </div>
