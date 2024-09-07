@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node ./scripts/alter-index.html-src.js",
+    "build": "vite build && pnpm run build:alter",
     "build:alter": "node ./scripts/alter-index.html-src.js",
     "preview": "vite preview",
     "archive": "./scripts/archive.sh",
