@@ -1,0 +1,14 @@
+{
+  "rename_title": {
+    "message": "名前の編集"
+  },
+  "title": {
+    "message": "名前"
+  },
+  "cancel": {
+    "message": "キャンセル"
+  },
+  "save": {
+    "message": "保存"
+  }
+}
