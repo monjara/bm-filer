@@ -1,58 +1,58 @@
 import useSingleKey from '@/hooks/useSingleKey'
 import updateBookmark from '@/messages/updateBookmarks'
+import renameReducer, { renameInitialState } from '@/reducers/renameReducer'
 import isTargetElement from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
-import { createContext, useContext, useRef, useState } from 'react'
+import { createContext, useContext, useReducer } from 'react'
+import { useCallback } from 'react'
 import { useItemsContext, useReloadItemsContext } from './ItemsProvider'
 import { useNavigateContext } from './NavigateProvider'
 
-const renameProvider = createContext({
+const renameStateProvider = createContext({
   oldTitle: '',
   isRename: false,
   update: async () => {},
   cancel: () => {},
 })
 
-export const useRenameContext = () => useContext(renameProvider)
+export const useRenameContext = () => useContext(renameStateProvider)
 
 export default function RenameProvider({ children }) {
   const { flatItems } = useItemsContext()
   const { reloadItems } = useReloadItemsContext()
   const { selectedId } = useNavigateContext()
-  const [isRename, setIsRename] = useState(false)
-  const oldTitle = useRef('')
+  const [state, dispatch] = useReducer(renameReducer, renameInitialState)
 
   useSingleKey(keys.RENAME, (e) => {
     if (isTargetElement(e, ['#title'])) {
       return
     }
 
-    oldTitle.current = flatItems.find(
-      (v) => String(v.id) === String(selectedId)
-    ).title
-    setIsRename(() => true)
+    dispatch({ type: 'START_RENAME', payload: { selectedId, flatItems } })
     e.preventDefault()
   })
 
-  const update = async (newTitle) => {
-    await updateBookmark(selectedId, newTitle)
-    reloadItems()
-  }
+  const update = useCallback(
+    async (newTitle) => {
+      await updateBookmark(selectedId, newTitle)
+      reloadItems()
+    },
+    [selectedId, reloadItems]
+  )
 
-  const cancel = () => {
-    setIsRename(() => false)
-  }
+  const cancel = useCallback(() => {
+    dispatch({ type: 'END_RENAME' })
+  }, [])
 
   return (
-    <renameProvider.Provider
+    <renameStateProvider.Provider
       value={{
-        oldTitle: oldTitle.current,
-        isRename,
+        ...state,
         update,
         cancel,
       }}
     >
       {children}
-    </renameProvider.Provider>
+    </renameStateProvider.Provider>
   )
 }
