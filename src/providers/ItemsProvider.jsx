@@ -1,19 +1,9 @@
 import getBookmarks from '@/messages/getBookmarks'
-import flatTree from '@/utils/flatTree'
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
+import itemsReducer, { itemsInitialState } from '@/reducers/itemsReducer'
+import { useReducer } from 'react'
+import { createContext, useCallback, useContext, useEffect } from 'react'
 
-const itemsContext = createContext({
-  items: [],
-  flatItems: [],
-  idAccessor: {},
-})
+const itemsContext = createContext(itemsInitialState)
 const reloadItemsContext = createContext({
   reloadItems: () => {},
 })
@@ -22,52 +12,22 @@ export const useItemsContext = () => useContext(itemsContext)
 export const useReloadItemsContext = () => useContext(reloadItemsContext)
 
 export default function ItemsProvider({ children }) {
-  const [items, setItems] = useState([])
-  const flatItems = useMemo(() => flatTree(items), [items])
-
-  const idAccessor = useMemo(() => {
-    const length = flatItems.length
-    return flatItems.reduce((acc, item, index) => {
-      const prevIndex = index > 0 ? index - 1 : length - 1
-      const nextIndex = index < length - 1 ? index + 1 : 0
-
-      if (!acc[item.id]) {
-        acc[item.id] = {}
-      }
-      acc[item.id].id = item.id
-      acc[item.id].url = item?.url
-      acc[item.id].prevDir = item.prevDir
-      acc[item.id].nextDir = item.nextDir
-      acc[item.id].left = flatItems[prevIndex]?.id
-      acc[item.id].right = flatItems[nextIndex]?.id
-      acc[item.id].below = item?.children?.[0]?.id
-      acc[item.id].parentId = item.parentId
-      acc[item.id].isFirst = item.index === 0
-      acc[item.id].isLast = flatItems[nextIndex]?.index === 0
-      return acc
-    }, {})
-  }, [flatItems])
+  const [state, dispatch] = useReducer(itemsReducer, itemsInitialState)
 
   useEffect(() => {
     getBookmarks().then((result) => {
-      setItems(result.tree)
+      dispatch({ type: 'SET_ITEMS', payload: result.tree })
     })
   }, [])
 
   const reloadItems = useCallback(() => {
     getBookmarks().then((result) => {
-      setItems(result.tree)
+      dispatch({ type: 'SET_ITEMS', payload: result.tree })
     })
   }, [])
 
   return (
-    <itemsContext.Provider
-      value={{
-        items,
-        flatItems,
-        idAccessor,
-      }}
-    >
+    <itemsContext.Provider value={{ ...state }}>
       <reloadItemsContext.Provider
         value={{
           reloadItems,
