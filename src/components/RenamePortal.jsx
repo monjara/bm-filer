@@ -1,8 +1,7 @@
 import { useRenameContext } from '@/providers/RenameProvider'
-import isTargetElement from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
 import locale from '@/utils/locale'
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useRef } from 'react'
 
 export default function RenamePortal() {
   const { isRename, oldTitle, update, cancel } = useRenameContext()
@@ -20,42 +19,18 @@ export default function RenamePortal() {
     [update, cancel]
   )
 
-  useEffect(() => {
-    if (isRename && inputRef?.current) {
-      inputRef.current.focus()
-    }
-  }, [isRename])
-
-  useEffect(() => {
-    if (isRename && inputRef?.current) {
-      const handler = (e) => {
-        if (isTargetElement(e, ['#title'])) {
-          if (e.key === keys.ESC) {
-            inputRef.current.blur()
-            cancel()
-          }
-        }
-        if (e.key === keys.ENTER) {
-          onSubmit(e)
-        }
-      }
-      document.body.addEventListener('keydown', handler)
-      return () => {
-        document.body.removeEventListener('keydown', handler)
-      }
-    }
-  }, [isRename, onSubmit, cancel])
-
   if (!isRename) {
     return null
   }
 
   return (
-    <div className='rename_container'>
+    <form className='rename_container' onSubmit={onSubmit}>
       <h4>{locale('rename_title')}</h4>
       <div className='rename_input_row'>
         <label htmlFor='title'>{locale('title')}</label>
         <input
+          // biome-ignore lint/a11y/noAutofocus: <explanation>
+          autoFocus={true}
           className='rename_input'
           ref={inputRef}
           defaultValue={oldTitle}
@@ -63,20 +38,22 @@ export default function RenamePortal() {
           id='title'
           label=''
           type='text'
+          onKeyDown={(e) => {
+            if (e.key === keys.ESC) {
+              inputRef.current.blur()
+              cancel()
+            }
+          }}
         />
       </div>
       <div className='rename_button_row'>
         <button className='rename_button_cancel' type='button' onClick={cancel}>
           {locale('cancel')}
         </button>
-        <button
-          className='rename_button_submit'
-          type='button'
-          onClick={onSubmit}
-        >
+        <button className='rename_button_submit' type='submit'>
           {locale('save')}
         </button>
       </div>
-    </div>
+    </form>
   )
 }
