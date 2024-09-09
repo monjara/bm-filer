@@ -11,5 +11,5 @@ export default function useSingleKey(key, callback) {
     return () => {
       document.body.removeEventListener('keydown', handler)
     }
-  })
+  }, [key, callback])
 }
