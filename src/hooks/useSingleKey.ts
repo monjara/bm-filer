@@ -1,8 +1,11 @@
 import { useEffect } from 'react'
 
-export default function useSingleKey(key, callback) {
+export default function useSingleKey(
+  key: string,
+  callback: (e: KeyboardEvent) => void
+) {
   useEffect(() => {
-    const handler = (e) => {
+    const handler = (e: KeyboardEvent) => {
       if (e.key === key) {
         callback(e)
       }

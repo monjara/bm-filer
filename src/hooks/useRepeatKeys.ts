@@ -1,17 +1,17 @@
 import { useEffect, useRef } from 'react'
 
 export default function useRepeatKeys(
-  key,
-  callback,
+  key: string,
+  callback: (e: KeyboardEvent) => void,
   options = {
     duration: 500,
   }
 ) {
-  const keyCount = useRef(0)
+  const keyCount = useRef<number>(0)
 
   useEffect(() => {
-    let timer
-    const handler = (e) => {
+    let timer: NodeJS.Timeout | null = null
+    const handler = (e: KeyboardEvent) => {
       if (e.key === key) {
         keyCount.current += 1
         if (keyCount.current === 1) {
@@ -19,7 +19,7 @@ export default function useRepeatKeys(
             keyCount.current = 0
           }, options.duration)
         } else if (keyCount.current === 2) {
-          callback()
+          callback(e)
           keyCount.current = 0
         }
       }
@@ -28,7 +28,9 @@ export default function useRepeatKeys(
     document.body.addEventListener('keydown', handler)
     return () => {
       document.body.removeEventListener('keydown', handler)
-      clearTimeout(timer)
+      if (timer) {
+        clearTimeout(timer)
+      }
     }
   }, [key, callback, options])
 }

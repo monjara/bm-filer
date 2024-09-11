@@ -24,11 +24,11 @@ export default defineManifest(async (_env) => ({
   content_scripts: [
     {
       matches: ['<all_urls>'],
-      js: ['src/content_scripts/index.js', 'src/main.jsx'],
+      js: ['src/content_scripts/index.ts', 'src/main.jsx'],
     },
   ],
   background: {
-    service_worker: 'src/background/index.js',
+    service_worker: 'src/background/index.ts',
     type: 'module',
   },
 }))

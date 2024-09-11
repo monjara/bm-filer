@@ -1,7 +1,9 @@
+import type { BMTreeNode } from '@/types/tree'
+
 /**
  * BFS
  */
-export default function flatTree(items) {
+export default function flatTree(items: BMTreeNode[]) {
   const result = []
   const queue = [...items]
 

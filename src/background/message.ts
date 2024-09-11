@@ -6,7 +6,7 @@ import {
   updateBookmark,
 } from './bookmark'
 
-type Request = {
+export type BackgroundRequest = {
   type: MessageType
   id?: string
   title?: string
@@ -21,7 +21,11 @@ type MessageType =
   | 'paste_bookmark'
   | 'remove_bookmark'
 
-export function message(req: Request, _: unknown, res: (res: unknown) => void) {
+export function message(
+  req: BackgroundRequest,
+  _: unknown,
+  res: (res: unknown) => void
+) {
   switch (req.type) {
     case 'get_bookmarks':
       getBookmarks().then((result) => {
