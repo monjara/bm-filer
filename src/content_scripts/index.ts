@@ -17,7 +17,7 @@ function iFrameHandler() {
 }
 
 let count = 0
-function handler(e) {
+function handler(e: KeyboardEvent) {
   if (isInputTarget(e)) {
     return
   }
@@ -50,7 +50,7 @@ function close() {
   }
 }
 
-function createRoot(rootId) {
+function createRoot(rootId: string) {
   const root = document.createElement('div')
   root.id = rootId
   root.style.position = 'fixed'
@@ -65,19 +65,18 @@ function createRoot(rootId) {
   return [root, shadowRoot]
 }
 
-function createIframe(id) {
+function createIframe(id: string) {
   const iframe = document.createElement('iframe')
   iframe.id = id
   iframe.src = chrome.runtime.getURL('../../index.html')
-  iframe.allowtransparency = true
+  iframe.style.backgroundColor = 'transparent'
   iframe.style.width = '100%'
   iframe.style.height = '100%'
-  iframe.position = 'absolute'
+  iframe.style.position = 'absolute'
   iframe.style.top = '0'
   iframe.style.left = '0'
   iframe.style.border = 'none'
   iframe.style.colorScheme = 'none'
-  iframe.is = 'x-frame-bypass'
   iframe.allowFullscreen = true
   return iframe
 }
