@@ -169,10 +169,12 @@ export default function NavigateProvider({ children }: Props) {
 
       if (e.key === keys.DOWN || e.key === keys.ArrowDOWN) {
         down()
+        e.preventDefault()
         e.stopPropagation()
       }
       if (e.key === keys.UP || e.key === keys.ArrowUP) {
         up()
+        e.preventDefault()
         e.stopPropagation()
       }
 
