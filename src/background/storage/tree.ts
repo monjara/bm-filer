@@ -9,8 +9,8 @@ export async function getTree(): Promise<TreeStorageItem> {
   return (await chrome.storage.local.get('tree')) as TreeStorageItem
 }
 
-export function resetTree() {
-  const tree: BookmarkTreeNode[] = []
+export function resetTree({ withMessage = false } = {}): void {
+  const tree: BMTreeNode[] = []
   chrome.bookmarks.getTree(async (treeNode) => {
     for (const node of treeNode) {
       const children = node.children
@@ -20,7 +20,12 @@ export function resetTree() {
         }
       }
     }
-    await chrome.storage.local.set({ tree: prepareTree(tree) })
+    const bmTree = prepareTree(tree) as BMTreeNode[]
+    await Promise.all([
+      chrome.storage.local.set({ tree: bmTree }),
+      withMessage &&
+        chrome.runtime.sendMessage({ type: 'reset_tree', tree: bmTree }),
+    ])
   })
 }
 
