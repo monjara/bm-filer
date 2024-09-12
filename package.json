@@ -1,11 +1,11 @@
 {
   "name": "bm-filer",
   "private": true,
-  "version": "0.1.9",
+  "version": "0.2.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && pnpm run build:alter",
+    "build": "tsc -b && vite build && pnpm run build:alter",
     "build:alter": "node ./scripts/alter-index.html-src.js",
     "preview": "vite preview",
     "archive": "./scripts/archive.sh",
@@ -21,9 +21,11 @@
     "@biomejs/biome": "1.8.3",
     "@crxjs/vite-plugin": "2.0.0-beta.23",
     "@types/chrome": "^0.0.268",
-    "@types/react": "^18.2.66",
-    "@types/react-dom": "^18.2.22",
+    "@types/node": "^22.5.4",
+    "@types/react": "^18.3.2",
+    "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.2.1",
+    "typescript": "^5.6.2",
     "vite": "^5.2.0",
     "vite-plugin-svgr": "^4.2.0"
   },
