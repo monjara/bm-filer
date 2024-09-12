@@ -11,7 +11,11 @@ const reloadItemsContext = createContext({
 export const useItemsContext = () => useContext(itemsContext)
 export const useReloadItemsContext = () => useContext(reloadItemsContext)
 
-export default function ItemsProvider({ children }) {
+type Props = {
+  children: React.ReactNode
+}
+
+export default function ItemsProvider({ children }: Props) {
   const [state, dispatch] = useReducer(itemsReducer, itemsInitialState)
 
   useEffect(() => {

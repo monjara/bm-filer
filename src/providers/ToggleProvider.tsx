@@ -1,12 +1,14 @@
 import { isInputTarget } from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
-import { createContext, useEffect } from 'react'
+import { useEffect } from 'react'
 
-const toggleContext = createContext({})
+type Props = {
+  children: React.ReactNode
+}
 
-export default function ToggleProvider({ children }) {
+export default function ToggleProvider({ children }: Props) {
   useEffect(() => {
-    const keydownHandler = (e) => {
+    const keydownHandler = (e: KeyboardEvent) => {
       if (isInputTarget(e)) {
         return
       }
@@ -15,8 +17,9 @@ export default function ToggleProvider({ children }) {
         close()
       }
     }
-    const clickHandler = (e) => {
-      if (e.target.id === 'bm-filer-cover') {
+    const clickHandler = (e: MouseEvent) => {
+      const target = e.target as HTMLElement
+      if (target.id === 'bm-filer-cover') {
         close()
       }
     }
@@ -33,5 +36,5 @@ export default function ToggleProvider({ children }) {
     window.parent.postMessage({ type: 'bm_close' }, '*')
   }
 
-  return <toggleContext.Provider value={{}}>{children}</toggleContext.Provider>
+  return <>{children}</>
 }

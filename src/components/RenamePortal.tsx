@@ -1,14 +1,14 @@
 import { useRenameContext } from '@/providers/RenameProvider'
 import keys from '@/utils/keys'
 import locale from '@/utils/locale'
-import { useCallback, useRef } from 'react'
+import { type FormEvent, useCallback, useRef } from 'react'
 
 export default function RenamePortal() {
   const { isRename, oldTitle, update, cancel } = useRenameContext()
-  const inputRef = useRef(null)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   const onSubmit = useCallback(
-    (e) => {
+    (e: FormEvent) => {
       if (inputRef?.current) {
         inputRef.current.blur()
         update(inputRef.current.value)
@@ -36,11 +36,12 @@ export default function RenamePortal() {
           defaultValue={oldTitle}
           name='title'
           id='title'
-          label=''
           type='text'
           onKeyDown={(e) => {
             if (e.key === keys.ESC) {
-              inputRef.current.blur()
+              if (inputRef.current) {
+                inputRef.current.blur()
+              }
               cancel()
             }
           }}

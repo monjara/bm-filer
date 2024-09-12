@@ -1,14 +1,14 @@
 import useRepeatKeys from '@/hooks/useRepeatKeys'
 import copyBookmark from '@/messages/copyBookmark'
 import keys from '@/utils/keys'
-import { createContext, useCallback } from 'react'
+import { useCallback } from 'react'
 import { useNavigateContext } from './NavigateProvider'
 
-const yankProvider = createContext({
-  yank: () => {},
-})
+type Props = {
+  children: React.ReactNode
+}
 
-export default function YankProvider({ children }) {
+export default function YankProvider({ children }: Props) {
   const { selectedId } = useNavigateContext()
 
   useRepeatKeys(
@@ -19,9 +19,9 @@ export default function YankProvider({ children }) {
     { duration: 500 }
   )
 
-  const yank = useCallback((id) => {
+  const yank = useCallback((id: string) => {
     copyBookmark(id)
   }, [])
 
-  return <yankProvider.Provider value={{}}>{children}</yankProvider.Provider>
+  return <>{children}</>
 }

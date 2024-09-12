@@ -8,7 +8,11 @@ import RenameProvider from './RenameProvider'
 import ToggleProvider from './ToggleProvider'
 import YankProvider from './YankProvider'
 
-export default function Provider({ children }) {
+type Props = {
+  children: React.ReactNode
+}
+
+export default function Provider({ children }: Props) {
   return (
     <ToggleProvider>
       <ItemsProvider>

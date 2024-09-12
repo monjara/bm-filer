@@ -1,3 +1,4 @@
+import type { Accessable } from '@/reducers/itemsReducer'
 import isTargetElement from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
 import {
@@ -10,27 +11,33 @@ import {
 import { useItemsContext } from './ItemsProvider'
 import { useOpenContext } from './OpenProvider'
 
-const navigateProvider = createContext({
+const navigateProvider = createContext<{
+  selectedId: string
+  updateSelectedId: (id: string) => void
+}>({
   selectedId: '',
   updateSelectedId: () => {},
 })
 
 export const useNavigateContext = () => useContext(navigateProvider)
 
-export default function NavigateProvider({ children }) {
+type Props = {
+  children: React.ReactNode
+}
+export default function NavigateProvider({ children }: Props) {
   const { idAccessor, flatItems } = useItemsContext()
   const { openLedger } = useOpenContext()
-  const [selectedId, setSelectedId] = useState('1')
+  const [selectedId, setSelectedId] = useState<string>('1')
 
-  const updateSelectedId = (id) => {
+  const updateSelectedId = (id: string) => {
     setSelectedId(id)
   }
 
-  const findChildBelow = useCallback(
+  const findChildBelow = useCallback<(id: string) => string>(
     (id) => {
       const stack = [id]
       while (stack.length) {
-        const id = stack.pop()
+        const id = stack.pop() as string
 
         const isLink = !!idAccessor[id]?.url
         if (isLink) {
@@ -53,15 +60,17 @@ export default function NavigateProvider({ children }) {
     [openLedger, flatItems, idAccessor]
   )
 
-  const findAbove = useCallback(
+  const findAbove = useCallback<(id: string) => string>(
     (currentId) => {
       const current = idAccessor[currentId]
       const isFirst = current.isFirst
-      const prevIsDir = !idAccessor[current.prevDir]?.url
+      const prevIsDir =
+        current.prevDir !== undefined && !idAccessor[current.prevDir]?.url
+
       return isFirst
         ? current.id === '1'
           ? findChildBelow('2')
-          : current.parentId
+          : (current.parentId as string)
         : prevIsDir
           ? findChildBelow(current.left)
           : current.left
@@ -69,34 +78,37 @@ export default function NavigateProvider({ children }) {
     [idAccessor, findChildBelow]
   )
 
-  const findParentBelow = useCallback(
+  const findParentBelow = useCallback<(id: string) => string>(
     (id) => {
       const stack = [id]
-      let parent
+      let parent: Accessable | undefined = undefined
       while (stack.length) {
-        const current = stack.pop()
+        const current = stack.pop() as string
         if (current === '1') {
           return '2'
         }
         if (current === '2') {
           return '1'
         }
-        parent = idAccessor[idAccessor[current].parentId]
+        parent = idAccessor[idAccessor[current].parentId as string]
         if (parent.isLast) {
           stack.push(parent.id)
         }
+      }
+      if (!parent || !parent.right) {
+        return '1'
       }
       return parent.right
     },
     [idAccessor]
   )
 
-  const findBelow = useCallback(
+  const findBelow = useCallback<(id: string) => string>(
     (currentId) => {
       const stack = [currentId]
-      let id
+      let id = '1'
       while (stack.length) {
-        const currentId = stack.pop()
+        const currentId = stack.pop() as string
         const currentItem = idAccessor[currentId]
         const isOpen = openLedger?.[currentId] ?? false
         const isLink = !!currentItem?.url
@@ -122,7 +134,8 @@ export default function NavigateProvider({ children }) {
               : currentItem.right
 
         const parentId = idAccessor[id].parentId
-        const isParentOpen = openLedger?.[parentId] ?? false
+        const isParentOpen =
+          (parentId !== undefined && openLedger?.[parentId]) ?? false
         if (parentId === '0') {
           return id
         }
@@ -136,20 +149,20 @@ export default function NavigateProvider({ children }) {
     [idAccessor, openLedger, findParentBelow]
   )
 
-  const up = useCallback(() => {
+  const up = useCallback<VoidFunction>(() => {
     const currentId = selectedId === '' ? '1' : selectedId
     const id = findAbove(currentId)
     setSelectedId(id)
   }, [selectedId, findAbove])
 
-  const down = useCallback(() => {
+  const down = useCallback<VoidFunction>(() => {
     const currentId = selectedId === '' ? '1' : selectedId
     const id = findBelow(currentId)
     setSelectedId(id)
   }, [selectedId, findBelow])
 
   useEffect(() => {
-    const handler = (e) => {
+    const handler = (e: KeyboardEvent) => {
       if (isTargetElement(e, ['#title'])) {
         return
       }

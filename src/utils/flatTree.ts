@@ -3,7 +3,7 @@ import type { BMTreeNode } from '@/types/tree'
 /**
  * BFS
  */
-export default function flatTree(items: BMTreeNode[]) {
+export default function flatTree(items: BMTreeNode[]): BMTreeNode[] {
   const result = []
   const queue = [...items]
 
@@ -13,7 +13,9 @@ export default function flatTree(items: BMTreeNode[]) {
       queue.push(...node.children)
     }
 
-    result.push(node)
+    if (node) {
+      result.push(node)
+    }
   }
 
   return result

@@ -1,7 +1,12 @@
+import type { BMTreeNode } from '@/types/tree'
 import Tree from './Tree'
 import TreeItem from './TreeItem'
 
-export default function ListContainer({ items }) {
+type Props = {
+  items: BMTreeNode[]
+}
+
+export default function ListContainer({ items }: Props) {
   return (
     <div className='list_container'>
       {items.map((item) => (

@@ -1,6 +1,18 @@
 import { useOpenContext } from '@/providers/OpenProvider'
+import type { BMTreeNode } from '@/types/tree'
 
-export default function Tree({ markup, item, depth = 1 }) {
+type MarkupProps = {
+  item: BMTreeNode
+  isOpen: boolean
+  depth: number
+}
+
+type Props = {
+  markup: (props: MarkupProps) => React.ReactNode
+  item: BMTreeNode
+  depth?: number | undefined
+}
+export default function Tree({ markup, item, depth = 1 }: Props) {
   const { openLedger } = useOpenContext()
   const isOpen = openLedger?.[item.id]
 

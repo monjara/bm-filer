@@ -5,20 +5,25 @@ import { useItemsContext } from './ItemsProvider'
 import { useNavigateContext } from './NavigateProvider'
 import { useRecordOpenContext } from './OpenProvider'
 
-const performContext = createContext({
+const performContext = createContext<{
+  toggle: (id: string) => void
+}>({
   toggle: () => {},
 })
 
 export const usePerformContext = () => useContext(performContext)
 
-export default function PerformProvider({ children }) {
+type Props = {
+  children: React.ReactNode
+}
+export default function PerformProvider({ children }: Props) {
   const { idAccessor } = useItemsContext()
   const { selectedId, updateSelectedId } = useNavigateContext()
   const { recordFolderOpen } = useRecordOpenContext()
   const item = idAccessor[selectedId]
 
   const toggle = useCallback(
-    (id) => {
+    (id: string) => {
       updateSelectedId(id)
       recordFolderOpen(id)
       // setIsOpen((old) => !old)
@@ -27,7 +32,7 @@ export default function PerformProvider({ children }) {
   )
 
   useEffect(() => {
-    const handler = (e) => {
+    const handler = (e: KeyboardEvent) => {
       if (isTargetElement(e, ['#title'])) {
         return
       }

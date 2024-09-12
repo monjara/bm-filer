@@ -8,16 +8,25 @@ import { useCallback } from 'react'
 import { useItemsContext, useReloadItemsContext } from './ItemsProvider'
 import { useNavigateContext } from './NavigateProvider'
 
-const renameStateProvider = createContext({
+const renameStateProvider = createContext<{
+  oldTitle: string
+  isRename: boolean
+  update: (newTitle: string) => void
+  cancel: () => void
+}>({
   oldTitle: '',
   isRename: false,
-  update: async () => {},
+  update: () => {},
   cancel: () => {},
 })
 
 export const useRenameContext = () => useContext(renameStateProvider)
 
-export default function RenameProvider({ children }) {
+type Props = {
+  children: React.ReactNode
+}
+
+export default function RenameProvider({ children }: Props) {
   const { flatItems } = useItemsContext()
   const { reloadItems } = useReloadItemsContext()
   const { selectedId } = useNavigateContext()
@@ -32,7 +41,7 @@ export default function RenameProvider({ children }) {
     e.preventDefault()
   })
 
-  const update = useCallback(
+  const update = useCallback<(newTitle: string) => void>(
     async (newTitle) => {
       await updateBookmark(selectedId, newTitle)
       reloadItems()
