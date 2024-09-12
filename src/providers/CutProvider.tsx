@@ -3,7 +3,7 @@ import useSingleKey from '@/hooks/useSingleKey'
 import removeBookmark from '@/messages/removeBookmark'
 import isDir from '@/utils/isDir'
 import keys from '@/utils/keys'
-import { useItemsContext, useReloadItemsContext } from './ItemsProvider'
+import { useItemsContext } from './ItemsProvider'
 import { useNavigateContext } from './NavigateProvider'
 import { useRenameContext } from './RenameProvider'
 
@@ -12,7 +12,6 @@ type Props = {
 }
 export default function CutProvider({ children }: Props) {
   const { flatItems, idAccessor } = useItemsContext()
-  const { reloadItems } = useReloadItemsContext()
   const { selectedId, updateSelectedId } = useNavigateContext()
   const { isRename } = useRenameContext()
 
@@ -39,7 +38,6 @@ export default function CutProvider({ children }: Props) {
     }
 
     await removeBookmark(id)
-    reloadItems()
   }
 
   return <>{children}</>

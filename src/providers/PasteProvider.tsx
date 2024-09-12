@@ -4,7 +4,7 @@ import type { BMTreeNode } from '@/types/tree'
 import isDir from '@/utils/isDir'
 import keys from '@/utils/keys'
 import { createContext } from 'react'
-import { useItemsContext, useReloadItemsContext } from './ItemsProvider'
+import { useItemsContext } from './ItemsProvider'
 import { useNavigateContext } from './NavigateProvider'
 import { useOpenContext } from './OpenProvider'
 
@@ -16,7 +16,6 @@ type Props = {
 
 export default function PasteProvider({ children }: Props) {
   const { flatItems } = useItemsContext()
-  const { reloadItems } = useReloadItemsContext()
   const { selectedId } = useNavigateContext()
   const { openLedger } = useOpenContext()
 
@@ -37,7 +36,6 @@ export default function PasteProvider({ children }: Props) {
         }
 
     await pasteBookmark(dist)
-    reloadItems()
   }
 
   return <pasteContext.Provider value={{}}>{children}</pasteContext.Provider>

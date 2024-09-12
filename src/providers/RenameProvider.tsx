@@ -3,9 +3,8 @@ import updateBookmark from '@/messages/updateBookmarks'
 import renameReducer, { renameInitialState } from '@/reducers/renameReducer'
 import isTargetElement from '@/utils/isTargetElement'
 import keys from '@/utils/keys'
-import { createContext, useContext, useReducer } from 'react'
-import { useCallback } from 'react'
-import { useItemsContext, useReloadItemsContext } from './ItemsProvider'
+import { createContext, useCallback, useContext, useReducer } from 'react'
+import { useItemsContext } from './ItemsProvider'
 import { useNavigateContext } from './NavigateProvider'
 
 const renameStateProvider = createContext<{
@@ -28,7 +27,6 @@ type Props = {
 
 export default function RenameProvider({ children }: Props) {
   const { flatItems } = useItemsContext()
-  const { reloadItems } = useReloadItemsContext()
   const { selectedId } = useNavigateContext()
   const [state, dispatch] = useReducer(renameReducer, renameInitialState)
 
@@ -44,9 +42,8 @@ export default function RenameProvider({ children }: Props) {
   const update = useCallback<(newTitle: string) => void>(
     async (newTitle) => {
       await updateBookmark(selectedId, newTitle)
-      reloadItems()
     },
-    [selectedId, reloadItems]
+    [selectedId]
   )
 
   const cancel = useCallback(() => {
